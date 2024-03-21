@@ -20,16 +20,16 @@ spring:
             - Path= /products/**
             -
         - id: r3
-          uri: http://localhost:8087
+          uri: http://localhost:8088
           predicates:
             - Path= /orders/**
             -
         - id: r4
-          uri: http://localhost:8087
+          uri: http://localhost:8089
           predicates:
             - Path= /payments/**
 
         - id: r5
-          uri: http://localhost:8087
+          uri: http://localhost:8090
           predicates:
             - Path= /reviews/**
