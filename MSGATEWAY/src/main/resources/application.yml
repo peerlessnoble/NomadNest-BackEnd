@@ -1,0 +1,35 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: MSGATEWAY
+
+  cloud:
+    discovery:
+      enabled: true
+    gateway:
+      routes:
+        - id: r1
+          uri: http://localhost:8086
+          predicates:
+            - Path= /users/**
+
+        - id: r2
+          uri: http://localhost:8087
+          predicates:
+            - Path= /products/**
+            -
+        - id: r3
+          uri: http://localhost:8087
+          predicates:
+            - Path= /orders/**
+            -
+        - id: r4
+          uri: http://localhost:8087
+          predicates:
+            - Path= /payments/**
+
+        - id: r5
+          uri: http://localhost:8087
+          predicates:
+            - Path= /reviews/**
