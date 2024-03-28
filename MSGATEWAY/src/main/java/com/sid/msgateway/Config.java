@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class Config {
-    public RouteLocator gatewayRoutes(RouteLocatorBuilder builder) {
+    /*public RouteLocator gatewayRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route(r -> r
                         .path("/users/**")
@@ -25,5 +25,5 @@ public class Config {
                         .path("/reviews/**")
                         .uri("lb://MSREVIEW"))
                 .build();
-    }
+    }*/
 }
