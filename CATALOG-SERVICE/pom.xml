@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.sid</groupId>
-    <artifactId>MSPRODUCT</artifactId>
+    <artifactId>CATALOG-SERVICE</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>MSPRODUCT</name>
     <description>MSPRODUCT</description>

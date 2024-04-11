@@ -13,7 +13,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("/catalog/categories")
 public class CategoryController {
     private final CategoryService categoryService;
     @GetMapping ("/{id}")

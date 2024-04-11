@@ -21,7 +21,7 @@ import java.util.List;
 
 @SpringBootApplication
 @AllArgsConstructor
-public class MsproductApplication implements CommandLineRunner {
+public class CatalogServiceApplication implements CommandLineRunner {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final SubCategoryRepository subCategoryRepository;
@@ -29,7 +29,7 @@ public class MsproductApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
 
-        SpringApplication.run(MsproductApplication.class, args);
+        SpringApplication.run(CatalogServiceApplication.class, args);
     }
 
     @Override
