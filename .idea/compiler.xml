@@ -9,8 +9,9 @@
         <outputRelativeToContentRoot value="true" />
         <module name="MSERUEKA" />
         <module name="MSGATEWAY" />
-        <module name="MSPRODUCT" />
+        <module name="CATALOG-SERVICE" />
         <module name="MSORDER" />
+        <module name="SECURITY-MSERVICE" />
         <module name="MSPAYMENT" />
         <module name="MSUSER" />
         <module name="MSREVIEW" />
@@ -29,13 +30,14 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="CATALOG-SERVICE" options="-parameters" />
       <module name="MSERUEKA" options="-parameters" />
       <module name="MSGATEWAY" options="-parameters" />
       <module name="MSORDER" options="-parameters" />
       <module name="MSPAYMENT" options="-parameters" />
-      <module name="MSPRODUCT" options="-parameters" />
       <module name="MSREVIEW" options="-parameters" />
       <module name="MSUSER" options="-parameters" />
+      <module name="SECURITY-MSERVICE" options="-parameters" />
     </option>
   </component>
 </project>
