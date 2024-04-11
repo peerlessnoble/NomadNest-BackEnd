@@ -72,10 +72,23 @@ public class UserServiceImpl implements IUserService {
                 .password(passwordEncoder.encode(userRequestDto.getPassword()))
                 .email(userRequestDto.getEmail())
                 .role(Role.USER)
-                .active(Active.ACTIVE)
-                .tasks(userRequestDto.getTasks()).build();
+                .active(Active.ACTIVE).build();
         //return MappingProfile.mapToUserDto(userRepository.save(toSave));
         return modelMapper.map(userRepository.save(toSave), UserDto.class);
+    }
+    @Override
+    public User createUserAdmin(User user) {
+
+        User toSave = User.builder()
+            .username(user.getUsername())
+            .firstname(user.getFirstname())
+            .lastname(user.getLastname())
+            .password(passwordEncoder.encode(user.getPassword()))
+            .email(user.getEmail())
+            .role(user.getRole())
+            .active(Active.ACTIVE).build();
+
+        return userRepository.save(toSave);
     }
 
     @Override
