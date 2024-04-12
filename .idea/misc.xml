@@ -18,10 +18,11 @@
         <option value="$PROJECT_DIR$/MSUSER/pom.xml" />
         <option value="$PROJECT_DIR$/MSGATEWAY/pom.xml" />
         <option value="$PROJECT_DIR$/MSERUEKA/pom.xml" />
-        <option value="$PROJECT_DIR$/MSPRODUCT/pom.xml" />
+        <option value="$PROJECT_DIR$/CATALOG-SERVICE/pom.xml" />
         <option value="$PROJECT_DIR$/MSORDER/pom.xml" />
         <option value="$PROJECT_DIR$/MSPAYMENT/pom.xml" />
         <option value="$PROJECT_DIR$/MSREVIEWS/pom.xml" />
+        <option value="$PROJECT_DIR$/SECURITY-MSERVICE/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

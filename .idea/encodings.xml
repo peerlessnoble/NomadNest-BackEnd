@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/CATALOG-SERVICE/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/MSERUEKA/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/MSGATEWAY/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/MSORDER/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/MSPAYMENT/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/MSPRODUCT/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/MSPRODUCT/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/MSREVIEW/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/MSUSER/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SECURITY-MSERVICE/src/main/java" charset="UTF-8" />
   </component>
 </project>
