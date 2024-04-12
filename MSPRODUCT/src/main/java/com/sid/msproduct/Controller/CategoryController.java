@@ -4,6 +4,8 @@ import com.sid.msproduct.Dtos.CategoryRequestDTO;
 import com.sid.msproduct.Dtos.CategoryResponseDTO;
 import com.sid.msproduct.Service.CategoryService;
 import lombok.AllArgsConstructor;
+
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +21,11 @@ public class CategoryController {
        return ResponseEntity.ok(categoryService.getCategoryById(id));
     }
     @GetMapping("")
-   ResponseEntity<List<CategoryResponseDTO>> getAllCategories(){
-        return ResponseEntity.ok(categoryService.getAllCategories());
+   ResponseEntity<Page<CategoryResponseDTO>> getAllCategories(@RequestParam("pageNumber") int pageNumber,
+                                                              @RequestParam("pageSize") int pageSize,
+                                                              @RequestParam("field") String field,
+                                                              @RequestParam("order") String order) {
+        return ResponseEntity.ok(categoryService.getAllCategories(pageNumber,pageSize,field,order));
     }
     @PostMapping("")
     ResponseEntity<CategoryResponseDTO> addCategory(@RequestBody CategoryRequestDTO categoryRequestDTO){

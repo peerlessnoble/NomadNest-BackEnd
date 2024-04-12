@@ -3,7 +3,9 @@ package com.sid.msproduct.Controller;
 import com.sid.msproduct.Dtos.SubCategoryRequestDTO;
 import com.sid.msproduct.Dtos.SubCategoryResponseDTO;
 import com.sid.msproduct.Service.SubCategoryService;
+import com.sid.msproduct.Utility.QueryParams;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +25,8 @@ public class SubcategoryController {
         return ResponseEntity.ok(subCategoryService.getSubCategoryById(id));
     }
 @RequestMapping("")
-    ResponseEntity< List<SubCategoryResponseDTO> >getAllSubCategories() {
-        return ResponseEntity.ok(subCategoryService.getAllSubCategories());
+    ResponseEntity<Page<SubCategoryResponseDTO>>getAllSubCategories(@RequestBody QueryParams params) {
+        return ResponseEntity.ok(subCategoryService.getAllSubCategories(params));
     }
 @PutMapping("/{id}")
     ResponseEntity< SubCategoryResponseDTO> updateSubCategory(@PathVariable Long id, @RequestBody SubCategoryRequestDTO subCategoryRequestDTO) throws Exception {

@@ -3,7 +3,9 @@ package com.sid.msproduct.Controller;
 import com.sid.msproduct.Dtos.ProductRequestDto;
 import com.sid.msproduct.Dtos.ProductResponseDto;
 import com.sid.msproduct.Service.ProductService;
+import jakarta.ws.rs.QueryParam;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,9 +26,16 @@ public class ProductController {
 
     }
 @GetMapping("")
-   ResponseEntity< List<ProductResponseDto>> getAllProducts() {
-        return ResponseEntity.ok(productService.getAllProducts());
+   ResponseEntity<Page<ProductResponseDto>> getAllProducts(@RequestParam("pageNumber") int pageNumber,
+                                                           @RequestParam("pageSize") int pageSize,
+                                                           @RequestParam("field") String field,
+                                                           @RequestParam("order") String order) {
+        return ResponseEntity.ok(productService.getAllProducts(pageNumber,pageSize,field,order));
     }
+
+
+
+
 @PutMapping("/{id}")
     ResponseEntity<ProductResponseDto> updateProduct(@PathVariable Long id, @RequestBody ProductRequestDto productRequestDto) throws Exception {
         return ResponseEntity.ok(productService.updateProduct(id,productRequestDto));

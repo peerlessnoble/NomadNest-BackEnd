@@ -6,9 +6,12 @@ import com.sid.msproduct.Entity.Category;
 import com.sid.msproduct.Repository.CategoryRepository;
 import com.sid.msproduct.mappers.MappingProfiles;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 @AllArgsConstructor
@@ -27,16 +30,26 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public List<CategoryResponseDTO> getAllCategories() {
-        return categoryRepository.findAll().stream().map(MappingProfiles::mapToDto).collect(Collectors.toList());
+    public Page<CategoryResponseDTO> getAllCategories(int pageNumber, int pageSize, String field, String order) {
+        PageRequest pageRequest  = PageRequest.of(
+                pageNumber,
+                pageSize,
+                Sort.by(
+                        order.equalsIgnoreCase("desc")?
+                                Sort.Direction.DESC
+                                :Sort.Direction.ASC,
+                        field)
+        );
+
+        return categoryRepository.findAll(pageRequest).map(MappingProfiles::mapToDto);
     }
 
     @Override
     public CategoryResponseDTO updateCategory(Long id, CategoryRequestDTO categoryRequestDTO) throws Exception {
         Category category=categoryRepository.findById(id).orElseThrow(() -> new Exception("Category not found"));
-        if (categoryRequestDTO!=null)category.setCategoryName(categoryRequestDTO.getCategoryName());
-        if (categoryRequestDTO!=null)category.setDescription(categoryRequestDTO.getDescription());
-        if (categoryRequestDTO!=null)category.setImagePath(categoryRequestDTO.getImagePath());
+        if (categoryRequestDTO.getCategoryName()!=null)category.setCategoryName(categoryRequestDTO.getCategoryName());
+        if (categoryRequestDTO.getDescription()!=null)category.setDescription(categoryRequestDTO.getDescription());
+        if (categoryRequestDTO.getImagePath()!=null)category.setImagePath(categoryRequestDTO.getImagePath());
         return MappingProfiles.mapToDto(categoryRepository.save(category));
     }
 
