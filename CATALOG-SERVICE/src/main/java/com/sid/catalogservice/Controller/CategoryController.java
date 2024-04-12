@@ -21,6 +21,7 @@ public class CategoryController {
     ResponseEntity<CategoryResponseDTO> getCategoryById(@PathVariable Long id) throws Exception{
        return ResponseEntity.ok(categoryService.getCategoryById(id));
     }
+
     @GetMapping("")
    ResponseEntity<Page<CategoryResponseDTO>> getAllCategories(@RequestBody QueryParams params) {
         return ResponseEntity.ok(categoryService.getAllCategories(params));
