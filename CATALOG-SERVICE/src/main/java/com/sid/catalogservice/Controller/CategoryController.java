@@ -3,6 +3,7 @@ package com.sid.catalogservice.Controller;
 import com.sid.catalogservice.Dtos.CategoryRequestDTO;
 import com.sid.catalogservice.Dtos.CategoryResponseDTO;
 import com.sid.catalogservice.Service.CategoryService;
+import com.sid.catalogservice.Utility.QueryParams;
 import lombok.AllArgsConstructor;
 
 import org.springframework.data.domain.Page;
@@ -21,11 +22,8 @@ public class CategoryController {
        return ResponseEntity.ok(categoryService.getCategoryById(id));
     }
     @GetMapping("")
-   ResponseEntity<Page<CategoryResponseDTO>> getAllCategories(@RequestParam("pageNumber") int pageNumber,
-                                                              @RequestParam("pageSize") int pageSize,
-                                                              @RequestParam("field") String field,
-                                                              @RequestParam("order") String order) {
-        return ResponseEntity.ok(categoryService.getAllCategories(pageNumber,pageSize,field,order));
+   ResponseEntity<Page<CategoryResponseDTO>> getAllCategories(@RequestBody QueryParams params) {
+        return ResponseEntity.ok(categoryService.getAllCategories(params));
     }
     @PostMapping("")
     ResponseEntity<CategoryResponseDTO> addCategory(@RequestBody CategoryRequestDTO categoryRequestDTO){

@@ -4,6 +4,7 @@ import com.sid.catalogservice.Dtos.CategoryRequestDTO;
 import com.sid.catalogservice.Dtos.CategoryResponseDTO;
 import com.sid.catalogservice.Entity.Category;
 import com.sid.catalogservice.Repository.CategoryRepository;
+import com.sid.catalogservice.Utility.QueryParams;
 import com.sid.catalogservice.mappers.MappingProfiles;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -30,15 +31,15 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public Page<CategoryResponseDTO> getAllCategories(int pageNumber, int pageSize, String field, String order) {
+    public Page<CategoryResponseDTO> getAllCategories(QueryParams params) {
         PageRequest pageRequest  = PageRequest.of(
-                pageNumber,
-                pageSize,
+                params.getPageNumber(),
+                params.getPageSize(),
                 Sort.by(
-                        order.equalsIgnoreCase("desc")?
+                        params.getOrder().equalsIgnoreCase("desc")?
                                 Sort.Direction.DESC
                                 :Sort.Direction.ASC,
-                        field)
+                        params.getField())
         );
 
         return categoryRepository.findAll(pageRequest).map(MappingProfiles::mapToDto);

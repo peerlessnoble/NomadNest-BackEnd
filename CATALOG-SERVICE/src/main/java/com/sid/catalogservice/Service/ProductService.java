@@ -5,6 +5,7 @@ import com.sid.catalogservice.Dtos.ProductResponseDto;
 import com.sid.catalogservice.Dtos.ProductRequestDto;
 import com.sid.catalogservice.Dtos.ProductResponseDto;
 import com.sid.catalogservice.Entity.Product;
+import com.sid.catalogservice.Utility.QueryParams;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 public interface ProductService {
     ProductResponseDto addProduct(ProductRequestDto productRequestDto);
     ProductResponseDto getProductById(Long id) throws Exception;
-    Page<ProductResponseDto> getAllProducts(int pageNumber, int pageSize, String field, String order);
+    Page<ProductResponseDto> getAllProducts(QueryParams params);
     ProductResponseDto updateProduct(Long id,ProductRequestDto productRequestDto) throws Exception;
     void deleteProduct(Long id) throws Exception;
 

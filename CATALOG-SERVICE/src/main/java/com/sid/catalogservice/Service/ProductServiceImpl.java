@@ -4,6 +4,7 @@ import com.sid.catalogservice.Dtos.ProductRequestDto;
 import com.sid.catalogservice.Dtos.ProductResponseDto;
 import com.sid.catalogservice.Entity.Product;
 import com.sid.catalogservice.Repository.ProductRepository;
+import com.sid.catalogservice.Utility.QueryParams;
 import com.sid.catalogservice.mappers.MappingProfiles;
 import com.sid.catalogservice.Entity.SubCategory;
 import com.sid.catalogservice.Repository.ProductRepository;
@@ -40,16 +41,16 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Page<ProductResponseDto> getAllProducts(int pageNumber, int pageSize, String field, String order) {
+    public Page<ProductResponseDto> getAllProducts(QueryParams params) {
 
         PageRequest pageRequest  = PageRequest.of(
-                pageNumber,
-                pageSize,
+                params.getPageNumber(),
+                params.getPageSize(),
                 Sort.by(
-                        order.equalsIgnoreCase("desc")?
+                        params.getOrder().equalsIgnoreCase("desc")?
                                 Sort.Direction.DESC
                                 :Sort.Direction.ASC,
-                        field)
+                        params.getField())
         );
 
         return productRepository.findAll(pageRequest).map(MappingProfiles::mapToDto);
