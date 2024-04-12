@@ -14,7 +14,7 @@ import java.util.Date;
 public class SubCategoryRequestDTO {
     private Long id;
     private String subCategoryName;
-    private Integer categoryId;
+    private Long categoryId;
     private String description;
     private String imagePath;
 
