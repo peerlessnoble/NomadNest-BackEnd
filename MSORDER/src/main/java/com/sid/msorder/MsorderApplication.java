@@ -44,9 +44,9 @@ public class MsorderApplication /* implements CommandLineRunner */ {
 
             //Order order1=new Order(new Date(), OrderStatus.PENDING,1L);
             Order order1=new Order(new Date(),OrderStatus.PENDING,1L,new Date());
-            OrderItem orderItem1 = new OrderItem(null,23,12.3,order1,3L);
-            OrderItem orderItem2= new OrderItem(null,20,128.3,order1,2L);
-            OrderItem orderItem3= new OrderItem(null,11,120.3,order1,3L);
+            OrderItem orderItem1 = new OrderItem(null,23,order1,3L);
+            OrderItem orderItem2= new OrderItem(null,20,order1,2L);
+            OrderItem orderItem3= new OrderItem(null,11,order1,3L);
             //orderItemRepository.saveAll(Arrays.asList(orderItem3,orderItem2,orderItem1));
             Shipping shipping1 = new Shipping(null,"casa",12,"12", LocalDate.now(), ShippingStatus.NOT_SHIPPED,order1);
             Shipping shipping2 = new Shipping(null,"rabat",41,"3",LocalDate.now(), ShippingStatus.LOST,null);

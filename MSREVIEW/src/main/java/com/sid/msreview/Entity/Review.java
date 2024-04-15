@@ -32,7 +32,7 @@ public class Review {
     @UpdateTimestamp
     private Date updatedReviewDate;
 
-    // Relationships
+
     @Column(name = "product_id")
     private Long product;
 

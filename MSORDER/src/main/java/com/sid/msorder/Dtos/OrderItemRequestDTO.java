@@ -11,5 +11,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class OrderItemRequestDTO {
     private int quantity;
-    private double unitPrice;
+    //private double unitPrice;
 }

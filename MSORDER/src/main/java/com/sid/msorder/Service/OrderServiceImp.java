@@ -75,7 +75,6 @@ public class OrderServiceImp implements OrderService{
             for (OrderItemRequestDTO itemDto : orderRequestDTO.getOrderItems()) {
                 OrderItem orderItem = new OrderItem();
                 orderItem.setQuantity(itemDto.getQuantity());
-                orderItem.setUnitPrice(itemDto.getUnitPrice());
                 orderItem.setOrder(order);
                 order.getOrderItems().add(orderItem);
             }

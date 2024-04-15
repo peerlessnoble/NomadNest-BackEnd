@@ -37,7 +37,7 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
 
-    @OneToOne(mappedBy = "order")
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
     private Shipping shipping;
 
     @Column(name = " user_id")
@@ -62,5 +62,6 @@ public class Order {
 
 
     }
+
 }
 

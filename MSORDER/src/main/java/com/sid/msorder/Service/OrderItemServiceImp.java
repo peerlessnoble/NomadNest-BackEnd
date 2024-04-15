@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 public class OrderItemServiceImp implements OrderItemService {
     private final OrderItemRepository orderItemRepository;
 
+
     @Override
     public Page<OrderItemResponseDTO> getAllOrderItems(int pageNumber,int pageSize, String field,String order) {
         PageRequest pageRequest=PageRequest.of(
@@ -71,7 +72,7 @@ public class OrderItemServiceImp implements OrderItemService {
     public OrderItemResponseDTO updateOrderItem(Long id, OrderItemRequestDTO orderItemRequestDTO) throws Exception {
         List<ErrorMessage> validationErrors = ValidationOrderItem.validate(orderItemRequestDTO);
         if (!validationErrors.isEmpty()) {
-            // If there are validation errors, construct an error message and throw an exception
+
             StringBuilder errorMessage = new StringBuilder("Validation failed: ");
             for (ErrorMessage error : validationErrors) {
                 errorMessage.append(error.getMessage()).append("; ");
@@ -82,7 +83,7 @@ public class OrderItemServiceImp implements OrderItemService {
         OrderItem orderItem = orderItemRepository.findById(id)
                 .orElseThrow(() -> new OrderNotValidException("Shipping not found"));
         orderItem.setQuantity(orderItemRequestDTO.getQuantity());
-        orderItem.setUnitPrice(orderItemRequestDTO.getUnitPrice());
+        //orderItem.setUnitPrice(orderItemRequestDTO.getUnitPrice());
         return MappingProfile.mapToDto(orderItemRepository.save(orderItem));
     }
 

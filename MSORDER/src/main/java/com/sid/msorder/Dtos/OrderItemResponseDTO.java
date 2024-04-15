@@ -14,7 +14,7 @@ public class OrderItemResponseDTO {
 
     private int quantity;
 
-    private double unitPrice;
+    //private double unitPrice;
 
-    private double totalPrice;
+   // private double totalPrice;
 }

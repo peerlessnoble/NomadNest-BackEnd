@@ -18,8 +18,8 @@ public class OrderItem {
     @Column(name = "quantity")
     private int quantity;
 
-    @Column(name = "unit_price")
-    private double unitPrice;
+    //@Column(name = "unit_price")
+   // private double unitPrice;
     /*@Transient
     private Double totalPrice;*/
 
@@ -35,6 +35,13 @@ public class OrderItem {
    /*public double getTotalPrice() {
         return unitPrice * quantity;
     }*/
+
+    public OrderItem(int quantity, Order order, Long productId) {
+        this.quantity = quantity;
+        //this.unitPrice = unitPrice;
+        this.order = order;
+        this.productId = productId;
+    }
 }
 
 

@@ -42,5 +42,13 @@ public class Shipping {
     @JoinColumn(name = "order_id")
     private Order order;
 
+    public Shipping(String shippingAddress, double shippingCost, String trackingNumber, LocalDate estimatedDeliveryDate, ShippingStatus status, Order order) {
+        this.shippingAddress = shippingAddress;
+        this.shippingCost = shippingCost;
+        this.trackingNumber = trackingNumber;
+        this.estimatedDeliveryDate = estimatedDeliveryDate;
+        this.status = status;
+        this.order = order;
+    }
 }
 

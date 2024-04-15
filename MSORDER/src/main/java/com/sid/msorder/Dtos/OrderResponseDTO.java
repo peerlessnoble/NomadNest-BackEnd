@@ -20,6 +20,6 @@ public class OrderResponseDTO {
     private ShippingResponseDTO shipping;
     private Date orderDate;
     private OrderStatus status;
-    private Double total_Price;
+    //private Double total_Price;
     private Date updatedDate;
 }

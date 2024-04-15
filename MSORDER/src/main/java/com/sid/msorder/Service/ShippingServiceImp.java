@@ -6,9 +6,13 @@ import com.sid.msorder.Dtos.ShippingResponseDTO;
 import com.sid.msorder.Entity.Shipping;
 import com.sid.msorder.Exception.OrderNotValidException;
 import com.sid.msorder.Exception.ShippingNotFound;
+import com.sid.msorder.Exception.ValidatorException;
 import com.sid.msorder.Repository.ShippingRepository;
 import com.sid.msorder.mappers.MappingProfile;
+import com.sid.msorder.utils.ValidationOrderItem;
+import com.sid.msorder.utils.ValidationShipping;
 import lombok.AllArgsConstructor;
+import org.modelmapper.spi.ErrorMessage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -46,12 +50,38 @@ public class ShippingServiceImp implements ShippingService{
 
     @Override
     public ShippingResponseDTO AddShipping(ShippingRequestDTO shippingRequestDTO) {
+        List<ErrorMessage> validationErrors = ValidationShipping.validate(shippingRequestDTO);
+
+
+        if (!validationErrors.isEmpty()) {
+
+            StringBuilder errorMessage = new StringBuilder("Validation failed: ");
+            for (ErrorMessage error : validationErrors) {
+                errorMessage.append(error.getMessage()).append("; ");
+            }
+            throw new ValidatorException(errorMessage.toString());
+
+
+        }
         Shipping shipping = MappingProfile.mapToEntity(shippingRequestDTO);
         return MappingProfile.mapToDto(shippingRepository.save(shipping));
     }
 
     @Override
     public ShippingResponseDTO updateShipping(Long id, ShippingRequestDTO shippingRequestDTO) throws RuntimeException {
+        List<ErrorMessage> validationErrors = ValidationShipping.validate(shippingRequestDTO);
+
+
+        if (!validationErrors.isEmpty()) {
+
+            StringBuilder errorMessage = new StringBuilder("Validation failed: ");
+            for (ErrorMessage error : validationErrors) {
+                errorMessage.append(error.getMessage()).append("; ");
+            }
+            throw new ValidatorException(errorMessage.toString());
+
+
+        }
         Shipping shipping = shippingRepository
                 .findById(id)
                 .orElseThrow(()-> new ShippingNotFound("Shipping not found"));

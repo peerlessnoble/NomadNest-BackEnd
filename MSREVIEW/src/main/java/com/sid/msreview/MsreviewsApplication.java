@@ -25,8 +25,10 @@ public class MsreviewsApplication {
     @Bean
     CommandLineRunner start() {
         return args -> {
-            Review review = new Review(null, "Bad", "the quality is bad", 3, new Date(), new Date(), 1L, 1L);
-            reviewRepository.saveAll(Arrays.asList(review));
+            Review review1 = new Review(null, "Bad", "the quality is bad", 1, new Date(), new Date(), 1L, 1L);
+            Review review2 = new Review(null, "good", "the quality is good", 4, new Date(), new Date(), 1L, 1L);
+            Review review3 = new Review(null, "Okay", "the quality is okay", 3, new Date(), new Date(), 1L, 1L);
+            reviewRepository.saveAll(Arrays.asList(review1,review2,review3));
         };
     }
 
