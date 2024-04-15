@@ -16,7 +16,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/order")
+@RequestMapping("orders/order")
 public class OrderController {
     private final OrderService orderService;
     @GetMapping("/{id}")

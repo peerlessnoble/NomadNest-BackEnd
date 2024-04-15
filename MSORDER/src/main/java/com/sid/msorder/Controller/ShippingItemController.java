@@ -14,7 +14,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/shipping")
+@RequestMapping("/orders/shipping")
 public class ShippingItemController {
     private final ShippingService shippingService;
     @GetMapping("/{id}")

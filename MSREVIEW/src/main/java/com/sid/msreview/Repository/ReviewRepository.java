@@ -9,5 +9,4 @@ import java.util.Optional;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     Optional<Review> findReviewByRating(int rating);
-    Optional<Review> findBy(String field,Object value);
 }
