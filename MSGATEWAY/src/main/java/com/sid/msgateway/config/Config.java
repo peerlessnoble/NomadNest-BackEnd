@@ -28,12 +28,14 @@ public class Config {
                 .route(r -> r
                         .path("/orders/**")
                         .filters(f -> f.filter(filter))
-                        .uri("lb://ORDER-SERVICE"))
+                        .uri("lb://MSORDER"))
+                        //.uri("lb://ORDER-SERVICE"))
                 .route(r -> r
                         .path("/payments/**")
                         .uri("lb://MSPAYMENT"))
                 .route(r -> r
                         .path("/reviews/**")
+                        .filters(f -> f.filter(filter))
                         .uri("lb://MSREVIEW"))
                 .build();
     }

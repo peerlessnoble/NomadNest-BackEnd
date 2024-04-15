@@ -22,6 +22,7 @@
       <module name="Configuration" target="1.7" />
       <module name="Eureka" target="1.7" />
       <module name="Gateway" target="1.7" />
+      <module name="MSPRODUCT" target="17" />
       <module name="order" target="1.7" />
       <module name="payment" target="1.7" />
       <module name="product" target="1.7" />
