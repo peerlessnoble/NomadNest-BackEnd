@@ -59,7 +59,7 @@ public class PaypalService {
 
     ) throws PayPalRESTException {
         Payment payment=new Payment();
-        payment.setId(payerId);
+        payment.setId(paymentId);
 
         PaymentExecution paymentExecution = new PaymentExecution();
         paymentExecution.setPayerId(payerId);

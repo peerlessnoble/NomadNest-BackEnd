@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -75,11 +76,13 @@ public class ReviewServiceImp  implements ReviewService{
         return MappingProfile.mapToDto(reviewRepository.save(review));
     }
 
+
     @Override
     public void deleteReview(Long id) throws ReviewNotFoundException {
         Review review =reviewRepository.findById(id).orElseThrow(()-> new ReviewNotFoundException("Review not found"));
+        review.setDeletedDate(LocalDateTime.now());
+        reviewRepository.save(review);
         reviewRepository.delete(review);
-
 
     }
 

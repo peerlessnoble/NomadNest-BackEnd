@@ -1,18 +1,19 @@
 package com.sid.msorder.utils;
 
-import com.sid.msorder.Dtos.OrderItemRequestDTO;
+
+import com.sid.msorder.Dtos.OrderItemRequestDto;
 import org.modelmapper.spi.ErrorMessage;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ValidationOrderItem {
-    public static List<ErrorMessage> validate(OrderItemRequestDTO orderItemRequestDTO) {
+    public static List<ErrorMessage> validate(OrderItemRequestDto orderItemRequestDTO) {
         var errors = new ArrayList<ErrorMessage>();
 
         if (orderItemRequestDTO == null) {
             errors.add(new ErrorMessage("Order item request is null"));
-            return errors; // Return here to avoid further validation
+            return errors;
         }
 
         if (orderItemRequestDTO.getQuantity() <= 0) {
@@ -27,5 +28,6 @@ public class ValidationOrderItem {
         return errors;
     }
 }
+
 
 

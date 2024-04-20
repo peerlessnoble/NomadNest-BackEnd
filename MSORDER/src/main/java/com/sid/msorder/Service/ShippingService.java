@@ -1,19 +1,16 @@
 package com.sid.msorder.Service;
 
-import com.sid.msorder.Dtos.OrderRequestDTO;
-import com.sid.msorder.Dtos.OrderResponseDTO;
-import com.sid.msorder.Dtos.ShippingRequestDTO;
-import com.sid.msorder.Dtos.ShippingResponseDTO;
-import com.sid.msorder.Entity.Shipping;
+import com.sid.msorder.Dtos.ShippingRequestDto;
+import com.sid.msorder.Dtos.ShippingResponseDto;
+import com.sid.msorder.Exception.ShippingNotFound;
 import org.springframework.data.domain.Page;
 
-import java.util.List;
-
 public interface ShippingService {
-    Page<ShippingResponseDTO > getAllShipping(int pageNumber, int pageSize, String field, String order);
-    ShippingResponseDTO getShippingById(Long id) throws Exception;
-    ShippingResponseDTO  AddShipping(ShippingRequestDTO shippingRequestDTO);
-    ShippingResponseDTO updateShipping(Long id, ShippingRequestDTO shippingRequestDTO) throws Exception;
+    Page<ShippingResponseDto> getAllShipping(int pageNumber, int pageSize, String field, String order);
+    ShippingResponseDto getShippingById(Long shippingId) throws ShippingNotFound;
+    ShippingResponseDto  AddShipping(ShippingRequestDto shippingRequestDTO);
+    ShippingResponseDto updateShipping(Long shippingId, ShippingRequestDto shippingRequestDTO) throws ShippingNotFound;
 
-    void deleteShipping(Long id) throws Exception;
+    void deleteShipping(Long shippingId) throws ShippingNotFound;
 }
+

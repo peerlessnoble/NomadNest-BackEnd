@@ -31,7 +31,7 @@ public class Config {
                         .uri("lb://MSORDER"))
                         //.uri("lb://ORDER-SERVICE"))
                 .route(r -> r
-                        .path("/payments/**")
+                        .path("/payment/**")
                         .uri("lb://MSPAYMENT"))
                 .route(r -> r
                         .path("/reviews/**")

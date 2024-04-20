@@ -1,6 +1,5 @@
 package com.sid.msreview.Exception.ExceptionHandler;
 
-import com.sid.msreview.Dtos.ErrorBody;
 import com.sid.msreview.Exception.ReviewNotFoundException;
 import com.sid.msreview.Exception.ValidatorException;
 import org.springframework.http.HttpStatus;

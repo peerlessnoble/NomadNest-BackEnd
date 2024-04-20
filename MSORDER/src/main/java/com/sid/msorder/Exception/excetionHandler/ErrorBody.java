@@ -1,4 +1,4 @@
-package com.sid.msreview.Dtos;
+package com.sid.msorder.Exception.excetionHandler;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,10 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 @Setter
 @Getter
-public class ErrorBody {
+public class ErrorBody  {
     @UpdateTimestamp
     private Date timestamp;
     private HttpStatus status;
     private List<String> errors;
-
 }
