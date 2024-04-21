@@ -1,14 +1,12 @@
 package com.sid.msorder.Controller;
 
-import com.sid.msorder.Dtos.OrderItemRequestDTO;
-import com.sid.msorder.Dtos.OrderItemResponseDTO;
+import com.sid.msorder.Dtos.OrderItemRequestDto;
+import com.sid.msorder.Dtos.OrderItemResponseDto;
 import com.sid.msorder.Service.OrderItemService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -16,11 +14,11 @@ import java.util.List;
 public class OrderItemController {
     private final OrderItemService orderItemService;
     @GetMapping("/{id}")
-    ResponseEntity<OrderItemResponseDTO> getOrderItem(@PathVariable Long id) throws Exception {
+    ResponseEntity<OrderItemResponseDto> getOrderItem(@PathVariable Long id) throws Exception {
         return ResponseEntity.ok(orderItemService.getOrderItemById(id));
     }
     @GetMapping
-    ResponseEntity<Page<OrderItemResponseDTO>> getAllOrderItem(
+    ResponseEntity<Page<OrderItemResponseDto>> getAllOrderItem(
             @RequestParam("pageNumber") int pageNumber,
             @RequestParam("pageSize") int pageSize,
             @RequestParam("fields") String fields,
@@ -29,17 +27,17 @@ public class OrderItemController {
         return ResponseEntity.ok(orderItemService.getAllOrderItems(pageNumber,pageSize,fields,order));
     }
     @PostMapping("/create")
-    ResponseEntity<OrderItemResponseDTO> addOrderItem(@RequestBody OrderItemRequestDTO orderItemRequestDTO) {
+    ResponseEntity<OrderItemResponseDto> addOrderItem(@RequestBody OrderItemRequestDto orderItemRequestDTO) {
         return ResponseEntity.ok(orderItemService.AddOrderItem(orderItemRequestDTO));
     }
+
     @PutMapping("/update/{id}")
-    ResponseEntity<OrderItemResponseDTO> updateOrderItem(@PathVariable Long id, @RequestBody OrderItemRequestDTO orderItemRequestDTO) throws Exception {
-        return ResponseEntity.ok(orderItemService.updateOrderItem(id, orderItemRequestDTO));
+    ResponseEntity<OrderItemResponseDto> updateOrderItem(@PathVariable("id") Long orderItemId, @RequestBody OrderItemRequestDto orderItemRequestDTO) throws Exception {
+        return ResponseEntity.ok(orderItemService.updateOrderItem(orderItemId, orderItemRequestDTO));
     }
+
     @DeleteMapping("/delete/{id}")
-    void deleteOrderItem(@PathVariable Long id) throws Exception {
-        orderItemService.deleteOrderItem(id);
+    void deleteOrderItem(@PathVariable("id") Long orderItemId) throws Exception {
+        orderItemService.deleteOrderItem(orderItemId);
     }
 }
-
-

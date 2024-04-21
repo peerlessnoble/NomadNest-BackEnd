@@ -2,46 +2,25 @@ package com.sid.msorder.Entity;
 
 
 import jakarta.persistence.*;
-import jakarta.persistence.Table;
 import lombok.*;
 
 @Entity
-@Table(name = "order_items")
+@Table(name = "order_item")
 @Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    private Long orderItemId;
     @Column(name = "quantity")
     private int quantity;
-
-    //@Column(name = "unit_price")
-   // private double unitPrice;
-    /*@Transient
-    private Double totalPrice;*/
-
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_id")
-    private Order order;
-
     @Column(name = "product_id")
     private Long productId;
 
-
-   /*public double getTotalPrice() {
-        return unitPrice * quantity;
-    }*/
-
-    public OrderItem(int quantity, Order order, Long productId) {
-        this.quantity = quantity;
-        //this.unitPrice = unitPrice;
-        this.order = order;
-        this.productId = productId;
-    }
+    @ManyToOne(fetch = FetchType.LAZY) // Ensure proper fetch type
+    @JoinColumn(name = "order_id") // Ensure proper join column name
+    private Order order; // Proper mapping to Order entity
 }
-
-

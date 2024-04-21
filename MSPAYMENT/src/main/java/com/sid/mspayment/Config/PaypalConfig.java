@@ -17,20 +17,9 @@ public class PaypalConfig {
     @Value("${mode}")
     private String mode;
 
-
     @Bean
     public APIContext apiContext() {
-        APIContext apiContext = new APIContext();
-        apiContext.setConfigurationMap(getConfigMap());
-        return apiContext;
-    }
-
-    private Map<String, String> getConfigMap() {
-        Map<String, String> configMap = new HashMap<>();
-        configMap.put("mode", mode);
-        configMap.put("clientId", clientId);
-        configMap.put("clientSecret", clientSecret);
-        return configMap;
+        return new APIContext(clientId, clientSecret, mode);
     }
 }
 

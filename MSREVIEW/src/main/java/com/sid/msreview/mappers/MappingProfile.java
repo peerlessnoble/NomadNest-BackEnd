@@ -7,6 +7,8 @@ import org.modelmapper.ModelMapper;
 
 public class MappingProfile {
     private static final ModelMapper modelMapper = new ModelMapper();
+
+
     public static Review mapToEntity(ReviewRequestDto reviewRequestDTO) {
         return modelMapper.map(reviewRequestDTO, Review.class);
     }
@@ -15,3 +17,4 @@ public class MappingProfile {
         return modelMapper.map(review, ReviewResponseDto.class);
     }
 }
+
