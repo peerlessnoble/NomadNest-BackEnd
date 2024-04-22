@@ -25,6 +25,8 @@ import com.sid.usermicroservice.dto.UserRequestDto;
 import com.sid.usermicroservice.dto.UserResponseDto;
 import com.sid.usermicroservice.utils.UserInputValidation;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,7 +46,7 @@ public class UserServiceImpl implements IUserService {
         log.info("Fetching all users");
         return userRepository.findAll()
                 .stream()
-                .map(MappingProfile::mapToUserDto)
+                .map(MappingProfile::toUserResponseDto)
                 .toList();
     }
 
@@ -57,7 +59,7 @@ public class UserServiceImpl implements IUserService {
 //      List<Task> tasks = taskClient.findByUserId(id);
        // List<Task> tasks = rabbitMqGetUserTasks.getUserTasks(id, "getUserTasksRoutingKey");
         //user.setTasks(tasks);
-        return MappingProfile.mapToUserDto(user);
+        return MappingProfile.toUserResponseDto(user);
     }
 
     @Override
@@ -79,15 +81,15 @@ public class UserServiceImpl implements IUserService {
     @Override
     public User createUserAdmin(User user) {
 
-        User toSave = User.builder()
-            .username(user.getUsername())
-            .firstname(user.getFirstname())
-            .lastname(user.getLastname())
-            .password(passwordEncoder.encode(user.getPassword()))
-            .email(user.getEmail())
-            .role(user.getRole())
-            .active(Active.ACTIVE).build();
-
+        User toSave = new User(
+                LocalDateTime.now(),
+                user.getEmail(),
+                user.getUsername(),
+                user.getFirstname(),
+                user.getLastname(),
+                passwordEncoder.encode(user.getPassword()),
+                Role.ADMIN,
+                Active.ACTIVE);
         return userRepository.save(toSave);
     }
 
@@ -111,11 +113,11 @@ public class UserServiceImpl implements IUserService {
         }
         var user = userRepository.findById(id).orElseThrow(
                 () -> new UserNotFoundException(MessagesError.USER_NOT_FOUND.getMessage()));
-        return MappingProfile.mapToUserDto(userRepository.save(user));
+        return MappingProfile.toUserResponseDto(userRepository.save(user));
     }
 
     @Override
-    public UserResponseDto getUserByEmail(String email) throws UserNotFoundException {
+    public UserDto getUserByEmail(String email) throws UserNotFoundException {
         log.info("Fetching user by email: {}", email);
         return userRepository.findUserByEmail(email)
                 .map(MappingProfile::mapToUserDto)
@@ -124,19 +126,19 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public UserResponseDto getUserByUsername(String username) throws UserNotFoundException {
+    public UserDto getUserByUsername(String username) throws UserNotFoundException {
         log.info("Fetching user by username: {}", username);
         Optional<User> user = userRepository.findByUsername(username);
         if (user.isEmpty()) {
             throw new UserNotFoundException(
                     MessagesError.USER_NOT_FOUND_WITH_USERNAME_EQUALS.getMessage() + username);
         } else {
-            return MappingProfile.toUserResponseDto(user.get());
+            return MappingProfile.mapToUserDto(user.get());
         }
     }
 
     @Override
-    public UserResponseDto getUserByUsernameAndPassword(String username, String password) throws UserNotFoundException {
+    public UserDto getUserByUsernameAndPassword(String username, String password) throws UserNotFoundException {
         log.info("Fetching user by username and password : {}", username + "Password : *******");
         return userRepository.findByUsernameAndPassword(username, password)
                 .map(MappingProfile::mapToUserDto)
@@ -144,7 +146,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public UserResponseDto getUserByEmailAndPassword(String email, String password) throws UserNotFoundException {
+    public UserDto getUserByEmailAndPassword(String email, String password) throws UserNotFoundException {
         log.info("Fetching user by email and password : {}", email + "Password : *******");
         return userRepository.findByEmailAndPassword(email, password)
                 .map(MappingProfile::mapToUserDto)

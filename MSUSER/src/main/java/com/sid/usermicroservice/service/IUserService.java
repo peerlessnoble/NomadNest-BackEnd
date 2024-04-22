@@ -17,8 +17,8 @@ public interface IUserService {
     User createUserAdmin(User user) throws EmailAlreadyExistsException;
     void deleteUser(Long id) throws  UserNotFoundException, EmptyEntityException;
     UserResponseDto updateUser(Long id, UserRequestDto userDto) throws UserNotFoundException;
-    UserResponseDto getUserByEmail(String email) throws UserNotFoundException;
-    UserResponseDto getUserByUsername(String username) throws UserNotFoundException;
-    UserResponseDto getUserByUsernameAndPassword(String username, String password) throws UserNotFoundException;
-    UserResponseDto getUserByEmailAndPassword(String email, String password) throws UserNotFoundException;
+    UserDto getUserByEmail(String email) throws UserNotFoundException;
+    UserDto getUserByUsername(String username) throws UserNotFoundException;
+    UserDto getUserByUsernameAndPassword(String username, String password) throws UserNotFoundException;
+    UserDto getUserByEmailAndPassword(String email, String password) throws UserNotFoundException;
 }

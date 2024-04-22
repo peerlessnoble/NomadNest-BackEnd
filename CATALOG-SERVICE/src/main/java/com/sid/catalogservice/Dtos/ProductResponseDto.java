@@ -32,4 +32,5 @@ public class ProductResponseDto {
     private Date updatedAt;
 
     private SubCategory subCategory;
+    private Long user_id;
 }

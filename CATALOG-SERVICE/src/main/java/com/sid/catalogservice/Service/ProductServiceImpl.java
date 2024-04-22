@@ -1,8 +1,11 @@
 package com.sid.catalogservice.Service;
 
+import com.nomadnest.clients.User.User;
+import com.nomadnest.clients.User.UserServiceClient;
 import com.sid.catalogservice.Dtos.ProductRequestDto;
 import com.sid.catalogservice.Dtos.ProductResponseDto;
 import com.sid.catalogservice.Entity.Product;
+import com.sid.catalogservice.Exception.UnauthorizedException;
 import com.sid.catalogservice.Repository.ProductRepository;
 import com.sid.catalogservice.Utility.QueryParams;
 import com.sid.catalogservice.mappers.MappingProfiles;
@@ -19,6 +22,7 @@ import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -26,10 +30,14 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService{
     private final ProductRepository productRepository;
     private final SubCategoryRepository subCategoryRepository;
+    private final UserServiceClient userServiceClient;
 
 
     @Override
-    public ProductResponseDto addProduct(ProductRequestDto productRequestDto) {
+        public ProductResponseDto addProduct(ProductRequestDto productRequestDto) throws UnauthorizedException {
+        User user=userServiceClient.getUserById(productRequestDto.getUser_id());
+        if(!(Objects.equals(user.getRole(), "ADMIN")))
+            throw new UnauthorizedException("You are not authorized to add product");
         Product product= MappingProfiles.mapToEntity(productRequestDto);
         return MappingProfiles.mapToDto(productRepository.save(product));
     }

@@ -6,6 +6,7 @@ import com.sid.msorder.Dtos.OrderResponseDto;
 import com.sid.msorder.Service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,11 @@ public class OrderController {
 
     @PostMapping("")
     ResponseEntity<OrderResponseDto> addOrder(@RequestBody OrderRequestDto orderRequestDTO){
-        return ResponseEntity.ok(orderService.AddOrder(orderRequestDTO));
+
+            OrderResponseDto orderResponseDto= orderService.AddOrder(orderRequestDTO);
+            return ResponseEntity.ok(orderResponseDto);
+
+
     }
     @PutMapping("/{id}")
     ResponseEntity<OrderResponseDto> updateOrder(@PathVariable Long id,@RequestBody OrderRequestDto orderRequestDTO) {

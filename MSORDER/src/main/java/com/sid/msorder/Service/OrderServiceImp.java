@@ -1,12 +1,17 @@
 package com.sid.msorder.Service;
 
+import com.nomadnest.clients.User.User;
+import com.nomadnest.clients.User.UserServiceClient;
 import com.sid.msorder.Dtos.OrderRequestDto;
 import com.sid.msorder.Dtos.OrderResponseDto;
 import com.sid.msorder.Entity.Order;
+import com.sid.msorder.Entity.OrderItem;
 import com.sid.msorder.Enums.OrderStatus;
 import com.sid.msorder.Exception.OrderNotFoundException;
 import com.sid.msorder.Exception.ValidatorException;
+import com.sid.msorder.Repository.OrderItemRepository;
 import com.sid.msorder.Repository.OrderRepository;
+import com.sid.msorder.Repository.ShippingRepository;
 import com.sid.msorder.emails.EmailService;
 import com.sid.msorder.mappers.MappingProfile;
 import com.sid.msorder.utils.ValidationOrder;
@@ -18,6 +23,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +34,8 @@ import java.util.List;
 public class OrderServiceImp implements OrderService{
     private final OrderRepository orderRepository;
     private final EmailService emailService;
+    private final UserServiceClient userServiceClient;
+    private final OrderItemService orderItemService;
 
     @Override
     public Page<OrderResponseDto> getAllOrders(int pageNumber, int pageSize, String field, String order) {
@@ -52,8 +60,16 @@ public class OrderServiceImp implements OrderService{
 
     @Override
     public OrderResponseDto AddOrder(OrderRequestDto orderRequestDTO) {
+        User user=userServiceClient.getUserById(orderRequestDTO.getUserId());
         Order order = MappingProfile.mapToEntity(orderRequestDTO);
         order.setOrderStatus(OrderStatus.CREATED);
+        order.setOrderDate(new Date());
+
+        order.getOrderItems().forEach(orderItem -> {
+            orderItem.setOrder(order);
+
+        });
+        order.getShipping().setOrder(order);
         Order savedOrder = orderRepository.save(order);
         return MappingProfile.mapToDto(savedOrder);
     }
