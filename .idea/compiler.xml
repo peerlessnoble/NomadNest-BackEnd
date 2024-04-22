@@ -12,6 +12,7 @@
         <module name="CATALOG-SERVICE" />
         <module name="MSORDER" />
         <module name="SECURITY-MSERVICE" />
+        <module name="Clients" />
         <module name="MSPAYMENT" />
         <module name="MSUSER" />
         <module name="MSREVIEW" />
@@ -19,6 +20,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="authentication" target="1.7" />
+      <module name="clientssss" target="17" />
       <module name="Configuration" target="1.7" />
       <module name="Eureka" target="1.7" />
       <module name="Gateway" target="1.7" />
@@ -32,6 +34,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="CATALOG-SERVICE" options="-parameters" />
+      <module name="Clients" options="-parameters" />
       <module name="MSERUEKA" options="-parameters" />
       <module name="MSGATEWAY" options="-parameters" />
       <module name="MSORDER" options="-parameters" />

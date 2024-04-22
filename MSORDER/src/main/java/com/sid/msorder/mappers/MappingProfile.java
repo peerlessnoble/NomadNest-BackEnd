@@ -39,6 +39,8 @@ public class MappingProfile {
             @Override
             protected void configure() {
                 // Add mappings for OrderRequestDto to Order
+                map().setUserId(source.getUserId());
+
             }
         });
 

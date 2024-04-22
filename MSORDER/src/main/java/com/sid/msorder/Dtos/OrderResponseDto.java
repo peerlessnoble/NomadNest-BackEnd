@@ -13,12 +13,11 @@ import java.util.List;
 @NoArgsConstructor
 public class OrderResponseDto {
     private Long orderId;
-    private Long customerId;
+    private Long userId;
     private Date orderDate;
     private Date updatedDate;
     private OrderStatus orderStatus;
     private List<OrderItemResponseDto> orderItems;
-    //
     private ShippingResponseDto shipping;
 }
 

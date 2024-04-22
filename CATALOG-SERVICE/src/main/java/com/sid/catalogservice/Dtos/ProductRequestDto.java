@@ -23,4 +23,5 @@ public class ProductRequestDto {
     private Integer inStock;
     private SubCategory subCategory;
     private Date createdAt;
+    private Long user_id;
 }

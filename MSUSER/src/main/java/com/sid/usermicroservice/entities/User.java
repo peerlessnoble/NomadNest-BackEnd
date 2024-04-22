@@ -5,7 +5,10 @@ import com.sid.usermicroservice.enumerations.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import com.sid.usermicroservice.dto.Task;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity(name = "users")
@@ -14,7 +17,17 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class User extends BaseEntity {
+@ToString
+public class User{
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @CreationTimestamp
+    private LocalDateTime creationTimestamp;
+
+    @UpdateTimestamp
+    private LocalDateTime updateTimestamp;
     @Column(unique = true, nullable = false, updatable = false)
     private String email;
     @Column(unique = true, nullable = false)
@@ -28,6 +41,29 @@ public class User extends BaseEntity {
     private Active active;
     @Embedded
     private UserDetails userDetails;
-    @Transient
-    private List<Task> tasks;
+
+    public User(LocalDateTime creationTimestamp, String email, String username, String firstname, String lastname, String password, Role role, Active active) {
+        this.creationTimestamp = creationTimestamp;
+        this.email = email;
+        this.username = username;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.password = password;
+        this.role = role;
+        this.active = active;
+    }
+
+    public User(Long id, LocalDateTime creationTimestamp, LocalDateTime updateTimestamp, String email, String username, String firstname, String lastname, String password, Role role, Active active, UserDetails userDetails) {
+        this.id = id;
+        this.creationTimestamp = creationTimestamp;
+        this.updateTimestamp = updateTimestamp;
+        this.email = email;
+        this.username = username;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.password = password;
+        this.role = role;
+        this.active = active;
+        this.userDetails = userDetails;
+    }
 }

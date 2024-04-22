@@ -43,6 +43,7 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "subcategory_id")
     private SubCategory subCategory;
+    private Long user_id;
 
 
 }

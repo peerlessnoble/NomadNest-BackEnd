@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @SpringBootApplication
 @AllArgsConstructor
+@EnableFeignClients(basePackages = "com.nomadnest.clients")
 public class CatalogServiceApplication implements CommandLineRunner {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
@@ -123,6 +125,7 @@ public class CatalogServiceApplication implements CommandLineRunner {
                 .imagePath("/images/chaussures_randonnee.jpg")
                 .inStock(50)
                 .createdAt(new Date())
+                .user_id(1L)
                 .build(),
 
         // Camping - Tentes
@@ -133,6 +136,7 @@ public class CatalogServiceApplication implements CommandLineRunner {
                 .originalPrice(199.99)
                 .imagePath("/images/tente_familiale.jpg")
                 .inStock(20)
+                .user_id(1L)
                 .createdAt(new Date())
                 .build(),
 

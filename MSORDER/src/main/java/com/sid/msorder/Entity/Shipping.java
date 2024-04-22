@@ -37,6 +37,13 @@ public class Shipping {
     @Temporal(TemporalType.DATE)
     private LocalDate estimatedDeliveryDate;
 
+    public Shipping(String shippingAddress, double shippingCost, Long trackingNumber, Order order) {
+        this.shippingAddress = shippingAddress;
+        this.shippingCost = shippingCost;
+        this.trackingNumber = trackingNumber;
+        this.order = order;
+    }
+
     @PrePersist
     public void generateTrackingNumber() {
         this.trackingNumber = System.currentTimeMillis();

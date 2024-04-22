@@ -1,5 +1,6 @@
 package com.sid.usermicroservice;
 
+import com.sid.usermicroservice.dto.UserDto;
 import com.sid.usermicroservice.dto.UserResponseDto;
 import com.sid.usermicroservice.entities.User;
 import com.sid.usermicroservice.enumerations.Active;
@@ -35,13 +36,11 @@ public class MsuserApplication {
             UserRequestDto userRequestDto = new UserRequestDto(1L,"Layla","Elaam",
                     "elaam04","code1234","laylaelaam@gmail.com");
             iUserService.createUser(userRequestDto);
-            UserResponseDto user =iUserService.getUserByUsername("elaam04");
-            System.out.println(user.getActive());
+            UserDto user =iUserService.getUserByUsername("elaam04");
             System.out.println(user.getId());
             System.out.println(user.getRole());
             System.out.println(user.getUsername());
             System.out.println(user.getPassword());
-            System.out.println(user.getTasks());
 
 
 

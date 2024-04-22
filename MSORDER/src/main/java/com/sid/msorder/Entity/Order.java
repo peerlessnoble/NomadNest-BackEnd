@@ -21,7 +21,6 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
-    private Long customerId;
     @Column(name = "order_date")
     @CreationTimestamp
     private Date orderDate;
@@ -30,11 +29,19 @@ public class Order {
     private Date updatedDate;
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
 
     // One-to-one relationship with Shipping
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Shipping shipping;
 
+    private Long userId;
+
+    public Order(  OrderStatus orderStatus, List<OrderItem> orderItems, Shipping shipping,Long userId) {
+        this.orderStatus = orderStatus;
+        this.orderItems = orderItems;
+        this.shipping = shipping;
+        this.userId = userId;
+    }
 }

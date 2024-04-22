@@ -30,15 +30,15 @@ public class UserController {
     }
 
     @GetMapping("/username={username}")
-    public UserResponseDto getUserByUsername(@PathVariable String username) {
+    public UserDto getUserByUsername(@PathVariable String username) {
         return iUserService.getUserByUsername(username);
     }
     @GetMapping("/getUserByEmail/{email}")
-    public ResponseEntity<UserResponseDto> getUserByEmail(@PathVariable String email) {
+    public ResponseEntity<UserDto> getUserByEmail(@PathVariable String email) {
         return ResponseEntity.ok(iUserService.getUserByEmail(email));
     }
     @GetMapping("/email={email}")
-    public UserResponseDto findByEmail(@PathVariable String email) {
+    public UserDto findByEmail(@PathVariable String email) {
         return iUserService.getUserByEmail(email);
     }
     @DeleteMapping("/{id}")
