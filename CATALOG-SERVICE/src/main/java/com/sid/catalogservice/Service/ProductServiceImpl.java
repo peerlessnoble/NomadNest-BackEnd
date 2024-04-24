@@ -5,20 +5,22 @@ import com.nomadnest.clients.User.UserServiceClient;
 import com.sid.catalogservice.Dtos.ProductRequestDto;
 import com.sid.catalogservice.Dtos.ProductResponseDto;
 import com.sid.catalogservice.Entity.Product;
+import com.sid.catalogservice.Exception.NotFoundException;
 import com.sid.catalogservice.Exception.UnauthorizedException;
+import com.sid.catalogservice.Exception.ValidationEntity;
 import com.sid.catalogservice.Repository.ProductRepository;
 import com.sid.catalogservice.Utility.QueryParams;
 import com.sid.catalogservice.mappers.MappingProfiles;
 import com.sid.catalogservice.Entity.SubCategory;
-import com.sid.catalogservice.Repository.ProductRepository;
 import com.sid.catalogservice.Repository.SubCategoryRepository;
 
+import jakarta.validation.ValidationException;
 import lombok.AllArgsConstructor;
 
+import org.modelmapper.spi.ErrorMessage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,17 +36,24 @@ public class ProductServiceImpl implements ProductService{
 
 
     @Override
-        public ProductResponseDto addProduct(ProductRequestDto productRequestDto) throws UnauthorizedException {
+    public ProductResponseDto addProduct(ProductRequestDto productRequestDto) throws ValidationException,UnauthorizedException {
         User user=userServiceClient.getUserById(productRequestDto.getUser_id());
+        System.out.println(user.getUsername()+" "+user.getRole());
         if(!(Objects.equals(user.getRole(), "ADMIN")))
             throw new UnauthorizedException("You are not authorized to add product");
-        Product product= MappingProfiles.mapToEntity(productRequestDto);
+       List<ErrorMessage>validationErrors= ValidationEntity.validateProduct(productRequestDto);
+       if (!validationErrors.isEmpty()){
+           throw new ValidationException(String.valueOf(validationErrors));
+       }
+
+        Product product = MappingProfiles.mapToEntity(productRequestDto);
         return MappingProfiles.mapToDto(productRepository.save(product));
     }
 
     @Override
-    public ProductResponseDto getProductById(Long id) throws Exception {
-        Product product=productRepository.findById(id).orElseThrow( () -> new Exception("Product not found"));
+    public ProductResponseDto getProductById(Long id) throws NotFoundException {
+        Product product=productRepository.findById(id).orElseThrow( () -> new  NotFoundException("Product not found"));
+        System.out.println(product);
         return MappingProfiles.mapToDto(product);
     }
 
@@ -65,21 +74,14 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public ProductResponseDto updateProduct(Long id, ProductRequestDto productRequestDto) throws Exception {
-        Product product=productRepository.findById(id).orElseThrow(() -> new Exception("Product not found"));
-        if (productRequestDto.getProductName()!=null)product.setProductName(productRequestDto.getProductName());
-        if (productRequestDto.getImagePath()!=null)product.setImagePath(productRequestDto.getImagePath());
-        if (productRequestDto.getLongDescription()!=null)product.setLongDescription(productRequestDto.getLongDescription());
-        if (productRequestDto.getInStock()!=null)product.setInStock(productRequestDto.getInStock());
-        if (productRequestDto.getShortDescription()!=null)product.setShortDescription(productRequestDto.getShortDescription());
-        if (productRequestDto.getOriginalPrice()!=null)product.setOriginalPrice(productRequestDto.getOriginalPrice());
-        if (productRequestDto.getSubCategory()!=null)product.setSubCategory(productRequestDto.getSubCategory());
+    public ProductResponseDto updateProduct(Long id, ProductRequestDto productRequestDto)   {
+        Product product=productRepository.findById(id).orElseThrow(() -> new NotFoundException("Product not found"));
         return MappingProfiles.mapToDto(productRepository.save(product));
     }
 
     @Override
-    public void deleteProduct(Long id) throws Exception {
-        Product product=productRepository.findById(id).orElseThrow(() -> new Exception("Product not found"));
+    public void deleteProduct(Long id) throws  NotFoundException {
+        Product product=productRepository.findById(id).orElseThrow(() -> new  NotFoundException("Product not found"));
         productRepository.delete(product);
 
     }
@@ -87,25 +89,30 @@ public class ProductServiceImpl implements ProductService{
 
 
 
-    @Override
-    public ProductResponseDto findProductBySubCategory(Long subcategory_id) throws Exception {
-        SubCategory subCategory = subCategoryRepository.findById(subcategory_id).get();
-        Product product=productRepository.findProductBySubCategory(subCategory).orElseThrow(() -> new Exception("Product not found"));
-
-        return MappingProfiles.mapToDto(product);
+  @Override
+    public List<ProductResponseDto> findProductBySubCategory(SubCategory subcategory_id) throws  NotFoundException {
+        List<Product> productList=  productRepository.findProductBySubCategory(subcategory_id).orElseThrow(() -> new NotFoundException("Product not found"));
+     return productList.stream().map(MappingProfiles::mapToDto).collect(Collectors.toList());
     }
 
-    @Override
-    public ProductResponseDto findProductByProductName(String name) throws Exception {
-        Product product=productRepository.findProductByProductName(name).orElseThrow(() -> new Exception("Product not found"));
-        return MappingProfiles.mapToDto(product);
-    }
+   @Override
+   public List<ProductResponseDto> findProductByProductName(String name) throws  NotFoundException {
+       List<Product> productList = productRepository.findProductByProductName(name)
+               .orElseThrow(() -> new NotFoundException("Product not found"));
+       return productList.stream()
+               .map(MappingProfiles::mapToDto)
+               .collect(Collectors.toList());
+   }
 
 
     @Override
-    public ProductResponseDto findProductByShortDescription(String description) throws Exception {
-        Product product=productRepository.findProductByShortDescription(description).orElseThrow(() -> new Exception("Product not found"));
-        return MappingProfiles.mapToDto(product);
+   public List< ProductResponseDto> findProductByShortDescription(String shortDescription) throws NotFoundException {
+      List<Product>productList=productRepository.findProductByShortDescription(shortDescription)
+            .orElseThrow(() -> new NotFoundException("Product not found"));
+      return productList.stream()
+             .map(MappingProfiles::mapToDto)
+              .collect(Collectors.toList());
+
     }
 
 

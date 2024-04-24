@@ -2,6 +2,8 @@ package com.sid.catalogservice.Controller;
 
 import com.sid.catalogservice.Dtos.ProductRequestDto;
 import com.sid.catalogservice.Dtos.ProductResponseDto;
+import com.sid.catalogservice.Entity.SubCategory;
+import com.sid.catalogservice.Exception.NotFoundException;
 import com.sid.catalogservice.Exception.UnauthorizedException;
 import com.sid.catalogservice.Service.ProductService;
 import com.sid.catalogservice.Utility.QueryParams;
@@ -25,12 +27,10 @@ public class ProductController {
             return ResponseEntity.ok(responseDto);
         } catch (UnauthorizedException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null); // or provide a meaningful error response
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // or provide a meaningful error response
         }
     }
 @GetMapping("/{id}")
-    ResponseEntity<ProductResponseDto> getProductById(@PathVariable Long id) throws Exception {
+    ResponseEntity<ProductResponseDto> getProductById(@PathVariable Long id) throws NotFoundException {
         return ResponseEntity.ok(productService.getProductById(id));
 
     }
@@ -38,12 +38,25 @@ public class ProductController {
    ResponseEntity<Page<ProductResponseDto>> getAllProducts(@RequestBody QueryParams params) {
         return ResponseEntity.ok(productService.getAllProducts(params));
     }
-@PutMapping("/{id}")
-    ResponseEntity<ProductResponseDto> updateProduct(@PathVariable Long id, @RequestBody ProductRequestDto productRequestDto) throws Exception {
+    @GetMapping("/subCategory/{subcategory_id}")
+    ResponseEntity<List<ProductResponseDto> >findProductBySubCategory(@PathVariable SubCategory subcategory_id) throws NotFoundException{
+        return ResponseEntity.ok(productService.findProductBySubCategory(subcategory_id));
+    }
+@GetMapping("/name")
+ ResponseEntity<List< ProductResponseDto> >findProductByProductName(@RequestParam("productName") String name) throws NotFoundException {
+        return ResponseEntity.ok(productService.findProductByProductName(name));
+   }
+@GetMapping("/description")
+   ResponseEntity<List<ProductResponseDto>> findProductByShortDescription(@RequestParam("shortDescription") String description) throws NotFoundException {
+       return ResponseEntity.ok(productService.findProductByShortDescription(description));
+    }
+
+    @PutMapping("/{id}")
+    ResponseEntity<ProductResponseDto> updateProduct(@PathVariable Long id, @RequestBody ProductRequestDto productRequestDto) throws  NotFoundException {
         return ResponseEntity.ok(productService.updateProduct(id,productRequestDto));
     }
 @DeleteMapping("/{id}")
-    void deleteProduct(@PathVariable Long id) throws Exception {
+    void deleteProduct(@PathVariable Long id) throws NotFoundException {
         productService.deleteProduct(id);
     }
 
