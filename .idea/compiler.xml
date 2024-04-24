@@ -20,7 +20,6 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="authentication" target="1.7" />
-      <module name="clientssss" target="17" />
       <module name="Configuration" target="1.7" />
       <module name="Eureka" target="1.7" />
       <module name="Gateway" target="1.7" />

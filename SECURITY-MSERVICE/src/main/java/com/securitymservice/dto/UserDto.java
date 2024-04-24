@@ -1,5 +1,6 @@
 package com.securitymservice.dto;
 
+import com.securitymservice.enums.IsEnabled;
 import lombok.Data;
 import com.securitymservice.enums.Role;
 
@@ -9,4 +10,5 @@ public class UserDto {
     private String username;
     private String password;
     private Role role;
+    private IsEnabled isEnabled;
 }

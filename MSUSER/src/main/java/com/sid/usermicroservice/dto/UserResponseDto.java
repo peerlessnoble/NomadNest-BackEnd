@@ -1,6 +1,6 @@
 package com.sid.usermicroservice.dto;
 
-import com.sid.usermicroservice.enumerations.Active;
+import com.sid.usermicroservice.enumerations.IsEnabled;
 import com.sid.usermicroservice.enumerations.Role;
 import lombok.Data;
 
@@ -13,5 +13,5 @@ public class UserResponseDto {
     private  String username;
     private String email;
     private Role role;
-    private Active active;
+    private IsEnabled isEnabled;
 }

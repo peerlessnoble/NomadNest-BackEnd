@@ -7,18 +7,21 @@ import com.sid.usermicroservice.exceptions.UserNotFoundException;
 import com.sid.usermicroservice.dto.UserDto;
 import com.sid.usermicroservice.dto.UserRequestDto;
 import com.sid.usermicroservice.dto.UserResponseDto;
+import org.springframework.messaging.MessagingException;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public interface IUserService {
     List<UserResponseDto> getAllUsers() throws UserNotFoundException;
     UserResponseDto getUserById(Long id) throws  UserNotFoundException, EmptyEntityException;
-    UserDto createUser(UserRequestDto userDto) throws EmailAlreadyExistsException;
+    UserResponseDto createUser(UserRequestDto userDto) throws EmailAlreadyExistsException;
     User createUserAdmin(User user) throws EmailAlreadyExistsException;
     void deleteUser(Long id) throws  UserNotFoundException, EmptyEntityException;
-    UserResponseDto updateUser(Long id, UserRequestDto userDto) throws UserNotFoundException;
+    UserDto updateUser(Long id, UserRequestDto userDto) throws UserNotFoundException;
     UserDto getUserByEmail(String email) throws UserNotFoundException;
     UserDto getUserByUsername(String username) throws UserNotFoundException;
     UserDto getUserByUsernameAndPassword(String username, String password) throws UserNotFoundException;
     UserDto getUserByEmailAndPassword(String email, String password) throws UserNotFoundException;
+    String confirmToken(String token);
 }
