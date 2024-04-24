@@ -1,7 +1,6 @@
 package com.sid.msorder.Dtos;
 
-import com.sid.msorder.Entity.OrderItem;
-import com.sid.msorder.Entity.Shipping;
+
 import com.sid.msorder.Enums.OrderStatus;
 import lombok.*;
 
@@ -18,6 +17,7 @@ public class OrderRequestDto {
     private OrderStatus orderStatus;
     private List<OrderItemRequestDto> orderItems;
     private ShippingRequestDto shipping;
+    private Long orderId;
 }
 
 

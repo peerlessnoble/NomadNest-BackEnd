@@ -19,5 +19,7 @@ public class OrderResponseDto {
     private OrderStatus orderStatus;
     private List<OrderItemResponseDto> orderItems;
     private ShippingResponseDto shipping;
+    //
+    //private Double originalPrice;
 }
 

@@ -35,6 +35,9 @@ public class Order {
     // One-to-one relationship with Shipping
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Shipping shipping;
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "shipping_id") // Assuming this is the foreign key column in the Order table
+//    private Shipping shipping;
 
     private Long userId;
 

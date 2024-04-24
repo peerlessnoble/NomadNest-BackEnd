@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Entity
@@ -32,6 +33,8 @@ public class Shipping {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", referencedColumnName = "orderId")
     private Order order;
+//    @OneToMany(mappedBy = "shipping", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    private List<Order> orders;
 
     @Column(name = "estimated_delivery_date")
     @Temporal(TemporalType.DATE)
