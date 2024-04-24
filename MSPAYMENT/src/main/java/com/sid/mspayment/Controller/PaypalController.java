@@ -50,7 +50,7 @@ public class PaypalController {
     @GetMapping("/payment/success")
     public String paymentSuccess(
             @RequestParam("paymentId") String paymentId, //automatocally provided by the paypal rest API
-            @RequestParam("payerId") String payerId
+            @RequestParam("PayerID") String payerId
 
     ) {
         try{

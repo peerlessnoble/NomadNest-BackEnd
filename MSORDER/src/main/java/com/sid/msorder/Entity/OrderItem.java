@@ -20,6 +20,7 @@ public class OrderItem {
     @Column(name = "product_id")
     private Long productId;
 
+
     @ManyToOne(fetch = FetchType.LAZY) // Ensure proper fetch type
     @JoinColumn(name = "order_id",referencedColumnName="orderId") // Ensure proper join column name
     private Order order; // Proper mapping to Order entity
@@ -27,5 +28,7 @@ public class OrderItem {
         this.quantity = quantity;
         this.productId = productId;
         this.order = order;
+
+
     }
 }
