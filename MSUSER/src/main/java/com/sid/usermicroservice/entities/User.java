@@ -1,6 +1,6 @@
 package com.sid.usermicroservice.entities;
 
-import com.sid.usermicroservice.enumerations.Active;
+import com.sid.usermicroservice.enumerations.IsEnabled;
 import com.sid.usermicroservice.enumerations.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,6 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
 public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,32 +39,11 @@ public class User{
     @Enumerated(EnumType.STRING)
     private Role role;
     @Enumerated(EnumType.STRING)
-    private Active active;
+    private IsEnabled isEnabled=IsEnabled.DISABLED;
     @Embedded
     private UserDetails userDetails;
+    @Transient
+    private List<Task> tasks;
 
-    public User(LocalDateTime creationTimestamp, String email, String username, String firstname, String lastname, String password, Role role, Active active) {
-        this.creationTimestamp = creationTimestamp;
-        this.email = email;
-        this.username = username;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.password = password;
-        this.role = role;
-        this.active = active;
-    }
 
-    public User(Long id, LocalDateTime creationTimestamp, LocalDateTime updateTimestamp, String email, String username, String firstname, String lastname, String password, Role role, Active active, UserDetails userDetails) {
-        this.id = id;
-        this.creationTimestamp = creationTimestamp;
-        this.updateTimestamp = updateTimestamp;
-        this.email = email;
-        this.username = username;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.password = password;
-        this.role = role;
-        this.active = active;
-        this.userDetails = userDetails;
-    }
 }

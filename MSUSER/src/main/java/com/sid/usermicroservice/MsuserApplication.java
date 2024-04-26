@@ -3,7 +3,6 @@ package com.sid.usermicroservice;
 import com.sid.usermicroservice.dto.UserDto;
 import com.sid.usermicroservice.dto.UserResponseDto;
 import com.sid.usermicroservice.entities.User;
-import com.sid.usermicroservice.enumerations.Active;
 import com.sid.usermicroservice.enumerations.Role;
 import com.sid.usermicroservice.repositories.UserRepository;
 import com.sid.usermicroservice.service.IUserService;
@@ -30,13 +29,14 @@ public class MsuserApplication {
                     .firstname("Amine")
                     .lastname("Khatmi")
                     .password("code1234")
-                    .email("AmineKhatmi@gmail.com")
+                    .email("AmineKhatmi12@gmail.com")
                     .role(Role.ADMIN).build();
             iUserService.createUserAdmin(toSave);
             UserRequestDto userRequestDto = new UserRequestDto(1L,"Layla","Elaam",
-                    "elaam04","code1234","laylaelaam@gmail.com");
+                    "elaam04","code1234","AmineKhatmi11@gmail.com");
             iUserService.createUser(userRequestDto);
             UserDto user =iUserService.getUserByUsername("elaam04");
+            System.out.println(user);
             System.out.println(user.getId());
             System.out.println(user.getRole());
             System.out.println(user.getUsername());

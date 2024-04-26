@@ -1,7 +1,9 @@
 package com.sid.usermicroservice.service;
 
+import com.sid.usermicroservice.email.EmailSender;
+import com.sid.usermicroservice.entities.ConfirmationToken;
 import com.sid.usermicroservice.entities.User;
-import com.sid.usermicroservice.enumerations.Active;
+import com.sid.usermicroservice.enumerations.IsEnabled;
 import com.sid.usermicroservice.enumerations.MessagesError;
 import com.sid.usermicroservice.enumerations.Role;
 import com.sid.usermicroservice.exceptions.EmailAlreadyExistsException;
@@ -24,15 +26,17 @@ import com.sid.usermicroservice.dto.UserDto;
 import com.sid.usermicroservice.dto.UserRequestDto;
 import com.sid.usermicroservice.dto.UserResponseDto;
 import com.sid.usermicroservice.utils.UserInputValidation;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
-@AllArgsConstructor
 @Slf4j
+@AllArgsConstructor
 public class UserServiceImpl implements IUserService {
     private final UserRepository userRepository;
     private final RabbitTemplate rabbitTemplate;
@@ -40,6 +44,9 @@ public class UserServiceImpl implements IUserService {
     private final PasswordEncoder passwordEncoder;
     private final TaskClient taskClient;
     private final ModelMapper modelMapper;
+    private final ConfirmationTokenService confirmationTokenService;
+    private final  EmailSender emailSender;
+
 
     @Override
     public List<UserResponseDto> getAllUsers() throws UserNotFoundException {
@@ -56,14 +63,14 @@ public class UserServiceImpl implements IUserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(
                         MessagesError.USER_NOT_FOUND_WITH_ID_EQUALS.getMessage() + id));
-//      List<Task> tasks = taskClient.findByUserId(id);
+        //List<Task> tasks = taskClient.findByUserId(id);
        // List<Task> tasks = rabbitMqGetUserTasks.getUserTasks(id, "getUserTasksRoutingKey");
         //user.setTasks(tasks);
         return MappingProfile.toUserResponseDto(user);
     }
 
     @Override
-    public UserDto createUser(UserRequestDto userRequestDto) throws EmailAlreadyExistsException {
+    public UserResponseDto createUser(UserRequestDto userRequestDto) throws EmailAlreadyExistsException {
         log.info("Creating new user with email : {}", userRequestDto.getEmail());
         var validationErrors = UserInputValidation.validate(userRequestDto);
         if (!validationErrors.isEmpty()) throw new ValidationException(validationErrors);
@@ -74,22 +81,39 @@ public class UserServiceImpl implements IUserService {
                 .password(passwordEncoder.encode(userRequestDto.getPassword()))
                 .email(userRequestDto.getEmail())
                 .role(Role.USER)
-                .active(Active.ACTIVE).build();
+                .isEnabled(IsEnabled.DISABLED).build();
         //return MappingProfile.mapToUserDto(userRepository.save(toSave));
-        return modelMapper.map(userRepository.save(toSave), UserDto.class);
+        User user=userRepository.save(toSave);
+        System.out.println(user);
+
+        String token= UUID.randomUUID().toString();
+        ConfirmationToken confirmationToken= new ConfirmationToken(
+                token, LocalDateTime.now()
+                ,LocalDateTime.now().plusMinutes(15)
+                ,toSave);
+
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
+
+        String link = "http://localhost:8888/users/confirm/" + token;
+        emailSender.send(
+                userRequestDto.getEmail(),
+                buildEmail(userRequestDto.getFirstname(), link));
+        System.out.println(link);
+        System.out.println(confirmationToken.getUser());
+
+        return MappingProfile.toUserResponseDto(user);
     }
     @Override
     public User createUserAdmin(User user) {
+        User toSave = User.builder()
+            .username(user.getUsername())
+            .firstname(user.getFirstname())
+            .lastname(user.getLastname())
+            .password(passwordEncoder.encode(user.getPassword()))
+            .email(user.getEmail())
+            .role(user.getRole())
+            .isEnabled(IsEnabled.ENABLED).build();
 
-        User toSave = new User(
-                LocalDateTime.now(),
-                user.getEmail(),
-                user.getUsername(),
-                user.getFirstname(),
-                user.getLastname(),
-                passwordEncoder.encode(user.getPassword()),
-                Role.ADMIN,
-                Active.ACTIVE);
         return userRepository.save(toSave);
     }
 
@@ -105,7 +129,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public UserResponseDto updateUser(Long id, UserRequestDto userDto) throws UserNotFoundException {
+    public UserDto updateUser(Long id, UserRequestDto userDto) throws UserNotFoundException {
         log.info("Creating new user: {}", userDto.getEmail());
         var validationErrors = UserInputValidation.validate(userDto);
         if (!validationErrors.isEmpty()) {
@@ -113,7 +137,7 @@ public class UserServiceImpl implements IUserService {
         }
         var user = userRepository.findById(id).orElseThrow(
                 () -> new UserNotFoundException(MessagesError.USER_NOT_FOUND.getMessage()));
-        return MappingProfile.toUserResponseDto(userRepository.save(user));
+        return MappingProfile.mapToUserDto(userRepository.save(user));
     }
 
     @Override
@@ -129,10 +153,11 @@ public class UserServiceImpl implements IUserService {
     public UserDto getUserByUsername(String username) throws UserNotFoundException {
         log.info("Fetching user by username: {}", username);
         Optional<User> user = userRepository.findByUsername(username);
-        if (user.isEmpty()) {
+        if (user.isEmpty()  ) {
             throw new UserNotFoundException(
                     MessagesError.USER_NOT_FOUND_WITH_USERNAME_EQUALS.getMessage() + username);
-        } else {
+        }
+        else {
             return MappingProfile.mapToUserDto(user.get());
         }
     }
@@ -153,6 +178,100 @@ public class UserServiceImpl implements IUserService {
                 .orElseThrow(() -> new UserNotFoundException(
                         MessagesError.USER_NOT_FOUND.getMessage()));
     }
+    public void enableAppUser(String email) {
+         userRepository.enableUser(email);
+    }
+    @Transactional
+    public String confirmToken(String token) {
+        ConfirmationToken confirmationToken = confirmationTokenService
+                .getToken(token)
+                .orElseThrow(() ->
+                        new IllegalStateException("token not found"));
+
+        if (confirmationToken.getConfirmedAt() != null) {
+            throw new IllegalStateException("email already confirmed");
+        }
+
+        LocalDateTime expiredAt = confirmationToken.getExpiresAt();
+
+        if (expiredAt.isBefore(LocalDateTime.now())) {
+            throw new IllegalStateException("token expired");
+        }
+
+        confirmationTokenService.setConfirmedAt(token);
+        enableAppUser(
+                confirmationToken.getUser().getEmail());
+        return "confirmed";
+    }
+    private String buildEmail(String name, String link) {
+        return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
+                "\n" +
+                "<span style=\"display:none;font-size:1px;color:#fff;max-height:0\"></span>\n" +
+                "\n" +
+                "  <table role=\"presentation\" width=\"100%\" style=\"border-collapse:collapse;min-width:100%;width:100%!important\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n" +
+                "    <tbody><tr>\n" +
+                "      <td width=\"100%\" height=\"53\" bgcolor=\"#0b0c0c\">\n" +
+                "        \n" +
+                "        <table role=\"presentation\" width=\"100%\" style=\"border-collapse:collapse;max-width:580px\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\">\n" +
+                "          <tbody><tr>\n" +
+                "            <td width=\"70\" bgcolor=\"#0b0c0c\" valign=\"middle\">\n" +
+                "                <table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"border-collapse:collapse\">\n" +
+                "                  <tbody><tr>\n" +
+                "                    <td style=\"padding-left:10px\">\n" +
+                "                  \n" +
+                "                    </td>\n" +
+                "                    <td style=\"font-size:28px;line-height:1.315789474;Margin-top:4px;padding-left:10px\">\n" +
+                "                      <span style=\"font-family:Helvetica,Arial,sans-serif;font-weight:700;color:#ffffff;text-decoration:none;vertical-align:top;display:inline-block\">Confirm your email</span>\n" +
+                "                    </td>\n" +
+                "                  </tr>\n" +
+                "                </tbody></table>\n" +
+                "              </a>\n" +
+                "            </td>\n" +
+                "          </tr>\n" +
+                "        </tbody></table>\n" +
+                "        \n" +
+                "      </td>\n" +
+                "    </tr>\n" +
+                "  </tbody></table>\n" +
+                "  <table role=\"presentation\" class=\"m_-6186904992287805515content\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"border-collapse:collapse;max-width:580px;width:100%!important\" width=\"100%\">\n" +
+                "    <tbody><tr>\n" +
+                "      <td width=\"10\" height=\"10\" valign=\"middle\"></td>\n" +
+                "      <td>\n" +
+                "        \n" +
+                "                <table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"border-collapse:collapse\">\n" +
+                "                  <tbody><tr>\n" +
+                "                    <td bgcolor=\"#1D70B8\" width=\"100%\" height=\"10\"></td>\n" +
+                "                  </tr>\n" +
+                "                </tbody></table>\n" +
+                "        \n" +
+                "      </td>\n" +
+                "      <td width=\"10\" valign=\"middle\" height=\"10\"></td>\n" +
+                "    </tr>\n" +
+                "  </tbody></table>\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "  <table role=\"presentation\" class=\"m_-6186904992287805515content\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"border-collapse:collapse;max-width:580px;width:100%!important\" width=\"100%\">\n" +
+                "    <tbody><tr>\n" +
+                "      <td height=\"30\"><br></td>\n" +
+                "    </tr>\n" +
+                "    <tr>\n" +
+                "      <td width=\"10\" valign=\"middle\"><br></td>\n" +
+                "      <td style=\"font-family:Helvetica,Arial,sans-serif;font-size:19px;line-height:1.315789474;max-width:560px\">\n" +
+                "        \n" +
+                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + name + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> Thank you for registering. Please click on the below link to activate your account: </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\"" + link + "\">Activate Now</a> </p></blockquote>\n Link will expire in 15 minutes. <p>See you soon</p>" +
+                "        \n" +
+                "      </td>\n" +
+                "      <td width=\"10\" valign=\"middle\"><br></td>\n" +
+                "    </tr>\n" +
+                "    <tr>\n" +
+                "      <td height=\"30\"><br></td>\n" +
+                "    </tr>\n" +
+                "  </tbody></table><div class=\"yj6qo\"></div><div class=\"adL\">\n" +
+                "\n" +
+                "</div></div>";
+    }
+
 
     //    @RabbitListener(queues = "isUserIdExistQueue")
 //    public ResponseEntity<?> receiveAnswer(Long userId) throws NotFoundException {

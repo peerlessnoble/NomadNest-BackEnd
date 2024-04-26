@@ -35,7 +35,7 @@ public class MappingProfile {
         userResponseDto.setId(user.getId());
         userResponseDto.setFirstname(user.getFirstname());
         userResponseDto.setUsername(user.getUsername());
-        userResponseDto.setActive(user.getActive());
+        userResponseDto.setIsEnabled(user.getIsEnabled());
         userResponseDto.setEmail(user.getEmail());
         userResponseDto.setRole(user.getRole());
         userResponseDto.setLastname(user.getLastname());

@@ -25,8 +25,12 @@ public class UserController {
         return iUserService.getUserById(id);
     }
     @PostMapping("/register")
-    public UserDto createUser(@RequestBody UserRequestDto user) {
-        return iUserService.createUser(user);
+    public ResponseEntity<UserResponseDto>  createUser(@RequestBody UserRequestDto user) {
+        return ResponseEntity.ok(iUserService.createUser(user));
+    }
+    @GetMapping("/confirm/{token}")
+    public ResponseEntity<String>  createUser(@PathVariable String token) {
+        return ResponseEntity.ok(iUserService.confirmToken(token));
     }
 
     @GetMapping("/username={username}")

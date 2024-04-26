@@ -45,7 +45,6 @@ public class ProductServiceImpl implements ProductService{
        if (!validationErrors.isEmpty()){
            throw new ValidationException(String.valueOf(validationErrors));
        }
-
         Product product = MappingProfiles.mapToEntity(productRequestDto);
         return MappingProfiles.mapToDto(productRepository.save(product));
     }
