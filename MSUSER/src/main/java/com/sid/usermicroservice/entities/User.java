@@ -18,6 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
 public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

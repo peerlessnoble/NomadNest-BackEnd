@@ -98,6 +98,9 @@ public class UserServiceImpl implements IUserService {
         emailSender.send(
                 userRequestDto.getEmail(),
                 buildEmail(userRequestDto.getFirstname(), link));
+        System.out.println(link);
+        System.out.println(confirmationToken.getUser());
+
         return MappingProfile.toUserResponseDto(user);
     }
     @Override
