@@ -1,8 +1,10 @@
-package com.sid.catalogservice.Exception;
+package com.sid.catalogservice.Utility;
 
 import com.sid.catalogservice.Dtos.CategoryRequestDTO;
 import com.sid.catalogservice.Dtos.ProductRequestDto;
 import com.sid.catalogservice.Dtos.SubCategoryRequestDTO;
+import com.sid.catalogservice.Exception.AlreadyExistException;
+import com.sid.catalogservice.Exception.EmptyValueException;
 import org.modelmapper.spi.ErrorMessage;
 
 import java.util.ArrayList;

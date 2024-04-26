@@ -2,7 +2,7 @@ package com.sid.catalogservice.Service;
 
 import com.sid.catalogservice.Exception.EmptyValueException;
 import com.sid.catalogservice.Exception.NotFoundException;
-import com.sid.catalogservice.Exception.ValidationEntity;
+import com.sid.catalogservice.Utility.ValidationEntity;
 import com.sid.catalogservice.Repository.SubCategoryRepository;
 import com.sid.catalogservice.Dtos.SubCategoryRequestDTO;
 import com.sid.catalogservice.Dtos.SubCategoryResponseDTO;
@@ -55,6 +55,10 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     @Override
     public SubCategoryResponseDTO updateSubCategory(Long id, SubCategoryRequestDTO subCategoryRequestDTO) throws NotFoundException {
         SubCategory subCategory = subCategoryRepository.findById(id).orElseThrow(() -> new NotFoundException("Subcategory with id " + id + " not found"));
+        subCategory.setSubCategoryName(subCategoryRequestDTO.getSubCategoryName());
+        subCategory.setDescription(subCategoryRequestDTO.getDescription());
+        subCategory.setImagePath(subCategoryRequestDTO.getImagePath());
+
         return MappingProfiles.mapToDto(subCategoryRepository.save(subCategory));
     }
 
