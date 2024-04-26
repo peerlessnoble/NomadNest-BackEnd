@@ -7,7 +7,7 @@ import com.sid.catalogservice.Dtos.ProductResponseDto;
 import com.sid.catalogservice.Entity.Product;
 import com.sid.catalogservice.Exception.NotFoundException;
 import com.sid.catalogservice.Exception.UnauthorizedException;
-import com.sid.catalogservice.Exception.ValidationEntity;
+import com.sid.catalogservice.Utility.ValidationEntity;
 import com.sid.catalogservice.Repository.ProductRepository;
 import com.sid.catalogservice.Utility.QueryParams;
 import com.sid.catalogservice.mappers.MappingProfiles;
@@ -76,6 +76,13 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public ProductResponseDto updateProduct(Long id, ProductRequestDto productRequestDto)   {
         Product product=productRepository.findById(id).orElseThrow(() -> new NotFoundException("Product not found"));
+        product.setProductName(productRequestDto.getProductName());
+        product.setImagePath(productRequestDto.getImagePath());
+        product.setLongDescription(productRequestDto.getLongDescription());
+        product.setShortDescription(productRequestDto.getShortDescription());
+        product.setInStock(productRequestDto.getInStock());
+        product.setOriginalPrice(productRequestDto.getOriginalPrice());
+        product.setSubCategory(productRequestDto.getSubCategory());
         return MappingProfiles.mapToDto(productRepository.save(product));
     }
 

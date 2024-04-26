@@ -5,7 +5,7 @@ import com.sid.catalogservice.Dtos.CategoryResponseDTO;
 import com.sid.catalogservice.Entity.Category;
 import com.sid.catalogservice.Exception.EmptyValueException;
 import com.sid.catalogservice.Exception.NotFoundException;
-import com.sid.catalogservice.Exception.ValidationEntity;
+import com.sid.catalogservice.Utility.ValidationEntity;
 import com.sid.catalogservice.Repository.CategoryRepository;
 import com.sid.catalogservice.Utility.QueryParams;
 import com.sid.catalogservice.mappers.MappingProfiles;
@@ -60,6 +60,9 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public CategoryResponseDTO updateCategory(Long id, CategoryRequestDTO categoryRequestDTO) throws  NotFoundException {
         Category category=categoryRepository.findById(id).orElseThrow(() -> new  NotFoundException("Category not found"));
+        category.setCategoryName(categoryRequestDTO.getCategoryName());
+        category.setDescription(categoryRequestDTO.getDescription());
+        category.setImagePath(categoryRequestDTO.getImagePath());
         return MappingProfiles.mapToDto(categoryRepository.save(category));
     }
 

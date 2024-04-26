@@ -1,4 +1,4 @@
-package com.sid.catalogservice.Exception;
+package com.sid.catalogservice.Dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
