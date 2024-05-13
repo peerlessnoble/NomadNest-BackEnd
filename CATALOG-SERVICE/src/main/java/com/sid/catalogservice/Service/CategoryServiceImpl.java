@@ -43,15 +43,14 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public Page<CategoryResponseDTO> getAllCategories(QueryParams params) {
-        PageRequest pageRequest  = PageRequest.of(
-                params.getPageNumber(),
-                params.getPageSize(),
-                Sort.by(
-                        params.getOrder().equalsIgnoreCase("desc")?
-                                Sort.Direction.DESC
-                                :Sort.Direction.ASC,
-                        params.getField())
+    public Page<CategoryResponseDTO> getAllCategories(int pageNumber, int pageSize, String field, String order) {
+        PageRequest pageRequest=PageRequest.of(
+                pageNumber,
+                pageSize,
+                Sort.by(order.equalsIgnoreCase("desc")?
+                                Sort.Direction.DESC:
+                                Sort.Direction.ASC,
+                        field)
         );
 
         return categoryRepository.findAll(pageRequest).map(MappingProfiles::mapToDto);

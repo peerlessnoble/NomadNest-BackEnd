@@ -43,11 +43,22 @@ public class SecurityConfig {
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
-            public void addCorsMappings(@NonNull CorsRegistry registry) {
+            public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedMethods("*");
             }
         };
     }
+
+
+
+
+   /* public void addCorsMappings(@NonNull CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:4200") // Replace with your Angular app's origin
+                .allowedMethods("GET", "POST", "PUT", "DELETE") // Add the HTTP methods you need
+                .allowedHeaders("*") // Allow all headers
+                .allowCredentials(true); // If you want to allow credentials
+    }*/
 
 }

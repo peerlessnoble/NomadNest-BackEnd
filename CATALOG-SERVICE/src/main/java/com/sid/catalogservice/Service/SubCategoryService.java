@@ -16,7 +16,7 @@ import java.util.List;
 public interface SubCategoryService {
     SubCategoryResponseDTO addSubcategory(SubCategoryRequestDTO subCategoryRequestDTO) throws EmptyValueException, AlreadyExistException;
     SubCategoryResponseDTO getSubCategoryById(Long id) throws NotFoundException;
-    Page<SubCategoryResponseDTO> getAllSubCategories(QueryParams params) throws NotFoundException;
+    Page<SubCategoryResponseDTO> getAllSubCategories(int pageNumber, int pageSize, String field, String order) throws NotFoundException;
     SubCategoryResponseDTO updateSubCategory(Long id,SubCategoryRequestDTO subCategoryRequestDTO) throws NotFoundException;
     void deleteSubCategory(Long id) throws NotFoundException;
     List<SubCategoryResponseDTO> findBySubcategoryName(String name) throws NotFoundException;

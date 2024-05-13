@@ -17,7 +17,7 @@ public interface ProductService {
     ProductResponseDto addProduct(ProductRequestDto productRequestDto) throws ValidationException;
     ProductResponseDto getProductById(Long id) throws NotFoundException;
 
-    Page<ProductResponseDto> getAllProducts(QueryParams params);
+    Page<ProductResponseDto> getAllProducts(int pageNumber, int pageSize, String field, String order);
 
     ProductResponseDto updateProduct(Long id, ProductRequestDto productRequestDto) throws  NotFoundException;
     void deleteProduct(Long id) throws NotFoundException;

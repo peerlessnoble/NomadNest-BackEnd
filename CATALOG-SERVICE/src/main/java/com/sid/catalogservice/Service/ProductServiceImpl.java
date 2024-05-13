@@ -57,16 +57,15 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Page<ProductResponseDto> getAllProducts(QueryParams params) {
+    public Page<ProductResponseDto> getAllProducts(int pageNumber, int pageSize, String field, String order) {
 
         PageRequest pageRequest  = PageRequest.of(
-                params.getPageNumber(),
-                params.getPageSize(),
-                Sort.by(
-                        params.getOrder().equalsIgnoreCase("desc")?
-                                Sort.Direction.DESC
-                                :Sort.Direction.ASC,
-                        params.getField())
+                pageNumber,
+                pageSize,
+                Sort.by(order.equalsIgnoreCase("desc")?
+                                Sort.Direction.DESC:
+                                Sort.Direction.ASC,
+                        field)
         );
 
         return productRepository.findAll(pageRequest).map(MappingProfiles::mapToDto);
