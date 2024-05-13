@@ -29,8 +29,11 @@ public class SubcategoryController {
         return ResponseEntity.ok(subCategoryService.getSubCategoryById(id));
     }
 @RequestMapping("")
-    ResponseEntity<Page<SubCategoryResponseDTO>>getAllSubCategories(@RequestBody QueryParams params) {
-        return ResponseEntity.ok(subCategoryService.getAllSubCategories(params));
+    ResponseEntity<Page<SubCategoryResponseDTO>>getAllSubCategories(@RequestParam("pageNumber") int pageNumber,
+                                                                    @RequestParam("pageSize") int pageSize,
+                                                                    @RequestParam("field") String field,
+                                                                    @RequestParam("order") String order) {
+        return ResponseEntity.ok(subCategoryService.getAllSubCategories(pageNumber,pageSize,field,order));
     }
 @GetMapping("/name")
    ResponseEntity<List<SubCategoryResponseDTO>> findBySubcategoryName(@RequestParam("subcategoryName") String name) throws NotFoundException {

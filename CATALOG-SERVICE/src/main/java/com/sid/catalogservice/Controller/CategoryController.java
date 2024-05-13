@@ -24,8 +24,11 @@ public class CategoryController {
        return ResponseEntity.ok(categoryService.getCategoryById(id));
     }
     @GetMapping("")
-   ResponseEntity<Page<CategoryResponseDTO>> getAllCategories(@RequestBody QueryParams params) {
-        return ResponseEntity.ok(categoryService.getAllCategories(params));
+   ResponseEntity<Page<CategoryResponseDTO>> getAllCategories(@RequestParam("pageNumber") int pageNumber,
+                                                              @RequestParam("pageSize") int pageSize,
+                                                              @RequestParam("field") String field,
+                                                              @RequestParam("order") String order) {
+        return ResponseEntity.ok(categoryService.getAllCategories(pageNumber,pageSize,field,order));
     }
    @GetMapping("/name")
    ResponseEntity<List<CategoryResponseDTO>> findByCategoryName(@RequestParam("categoryName") String name) throws NotFoundException{

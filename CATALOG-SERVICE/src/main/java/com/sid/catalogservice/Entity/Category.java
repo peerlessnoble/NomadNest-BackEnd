@@ -35,7 +35,7 @@ public class Category {
     private Date updatedAt;
 //    @Column(name = "deleted_at")
 //    private Date deletedAt;
-    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<SubCategory> subCategoryList;
 
 }

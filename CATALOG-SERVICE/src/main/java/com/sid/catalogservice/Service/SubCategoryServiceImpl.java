@@ -45,9 +45,15 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     }
 
     @Override
-    public Page<SubCategoryResponseDTO> getAllSubCategories(QueryParams params) throws NotFoundException {
-        Sort.Direction direction = params.getOrder().equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        PageRequest pageRequest = PageRequest.of(params.getPageNumber(), params.getPageSize(), Sort.by(direction, params.getField()));
+    public Page<SubCategoryResponseDTO> getAllSubCategories(int pageNumber, int pageSize, String field, String order) throws NotFoundException {
+        PageRequest pageRequest=PageRequest.of(
+                pageNumber,
+                pageSize,
+                Sort.by(order.equalsIgnoreCase("desc")?
+                                Sort.Direction.DESC:
+                                Sort.Direction.ASC,
+                        field)
+        );
 
         return subCategoryRepository.findAll(pageRequest).map(MappingProfiles::mapToDto);
     }

@@ -29,24 +29,27 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null); // or provide a meaningful error response
         }
     }
-@GetMapping("/{id}")
+    @GetMapping("/{id}")
     ResponseEntity<ProductResponseDto> getProductById(@PathVariable Long id) throws NotFoundException {
         return ResponseEntity.ok(productService.getProductById(id));
 
     }
-@GetMapping("")
-   ResponseEntity<Page<ProductResponseDto>> getAllProducts(@RequestBody QueryParams params) {
-        return ResponseEntity.ok(productService.getAllProducts(params));
+    @GetMapping("")
+       ResponseEntity<Page<ProductResponseDto>> getAllProducts(@RequestParam("pageNumber") int pageNumber,
+                                                               @RequestParam("pageSize") int pageSize,
+                                                               @RequestParam("field") String field,
+                                                               @RequestParam("order") String order) {
+            return ResponseEntity.ok(productService.getAllProducts(pageNumber,pageSize,field,order));
     }
     @GetMapping("/subCategory/{subcategory_id}")
     ResponseEntity<List<ProductResponseDto> >findProductBySubCategory(@PathVariable SubCategory subcategory_id) throws NotFoundException{
         return ResponseEntity.ok(productService.findProductBySubCategory(subcategory_id));
     }
-@GetMapping("/name")
- ResponseEntity<List< ProductResponseDto> >findProductByProductName(@RequestParam("productName") String name) throws NotFoundException {
+    @GetMapping("/name")
+    ResponseEntity<List< ProductResponseDto> >findProductByProductName(@RequestParam("productName") String name) throws NotFoundException {
         return ResponseEntity.ok(productService.findProductByProductName(name));
-   }
-@GetMapping("/description")
+    }
+    @GetMapping("/description")
    ResponseEntity<List<ProductResponseDto>> findProductByShortDescription(@RequestParam("shortDescription") String description) throws NotFoundException {
        return ResponseEntity.ok(productService.findProductByShortDescription(description));
     }
