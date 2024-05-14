@@ -38,7 +38,7 @@
       <module name="MSGATEWAY" options="-parameters" />
       <module name="MSORDER" options="-parameters" />
       <module name="MSPAYMENT" options="-parameters" />
-      <module name="MSREVIEW" options="-parameters" />
+      <module name="MSREVIEW" options="" />
       <module name="MSUSER" options="-parameters" />
       <module name="SECURITY-MSERVICE" options="-parameters" />
     </option>
