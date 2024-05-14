@@ -20,6 +20,6 @@ public class CategoryResponseDTO {
     private Date createdAt;
     private Date updatedAt;
     private Date deletedAt;
-    private List<SubCategoryResponseDTO> subCategories;
+    private List<SubCategoryResponseDTO> subCategoryList;
 
 }

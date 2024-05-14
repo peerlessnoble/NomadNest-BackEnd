@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 @Entity
@@ -36,6 +37,16 @@ public class Category {
 //    @Column(name = "deleted_at")
 //    private Date deletedAt;
     @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    private List<SubCategory> subCategoryList;
+    private List<SubCategory> subCategoryList = new ArrayList<>();
+    public void addSubCategory(SubCategory subCategory){
+        subCategory.setCategory(this);
+        if (subCategoryList == null) {
+            subCategoryList = new ArrayList<>();
+        }
+        subCategoryList.add(subCategory);
+    }
+    public void removeSubCategory(SubCategory subCategory){
+        subCategoryList.remove(subCategory);
+    }
 
 }
