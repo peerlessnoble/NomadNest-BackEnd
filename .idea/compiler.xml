@@ -11,11 +11,11 @@
         <module name="MSGATEWAY" />
         <module name="CATALOG-SERVICE" />
         <module name="MSORDER" />
-        <module name="SECURITY-MSERVICE" />
         <module name="Clients" />
+        <module name="SECURITY-MSERVICE" />
         <module name="MSPAYMENT" />
-        <module name="MSUSER" />
         <module name="MSREVIEW" />
+        <module name="MSUSER" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -38,7 +38,7 @@
       <module name="MSGATEWAY" options="-parameters" />
       <module name="MSORDER" options="-parameters" />
       <module name="MSPAYMENT" options="-parameters" />
-      <module name="MSREVIEW" options="" />
+      <module name="MSREVIEW" options="-parameters" />
       <module name="MSUSER" options="-parameters" />
       <module name="SECURITY-MSERVICE" options="-parameters" />
     </option>
