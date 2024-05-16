@@ -22,6 +22,9 @@ public class MSConstant {
     public static final String USER_MICROSERVICE_URI  = "lb://user-microservice";
 
     public static final String CATALOGUE_CATEGORIES_PATH = "/catalog/categories/**";
+
+    public static final String CATALOGUE_SUBCATEGORIES_PATH = "/catalog/subcategories/**";
+
     public static final String CATALOGUE_PRODUCTS_PATH = "/catalog/products/**";
     public static final String CONFIG_PATH  = "";
     public static final String AUTH_PATH  = "/auth/**";

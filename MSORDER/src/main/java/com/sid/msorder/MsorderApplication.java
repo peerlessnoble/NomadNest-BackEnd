@@ -32,16 +32,7 @@ public class MsorderApplication /* implements CommandLineRunner */ {
 
         SpringApplication.run(MsorderApplication.class, args);
     }
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(@NonNull CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedMethods("*");
-            }
-        };
-    }
+
 
 }
 
