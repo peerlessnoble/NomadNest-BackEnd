@@ -27,6 +27,9 @@ public class ConfigRouter {
                 .route(CATALOGUE_MICROSERVICE, r -> r.path(CATALOGUE_CATEGORIES_PATH)
                         .uri(CATALOGUE_MICROSERVICE_URI))
 
+                .route(CATALOGUE_MICROSERVICE, r -> r.path(CATALOGUE_SUBCATEGORIES_PATH)
+                        .uri(CATALOGUE_MICROSERVICE_URI))
+
                 .route(PAYMENT_MICROSERVICE, r -> r.path(PAYMENT_PATH)
                         .filters(f->f.filter(filter))
                         .uri(PAYMENT_MICROSERVICE_URI))
