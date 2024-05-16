@@ -29,7 +29,7 @@ public class UserMicroserviceApplication {
             Role userRole = new Role(ERole.USER);
             Role adminRole = new Role(ERole.ADMIN);
             roleRepository.saveAll(List.of(adminRole,userRole));
-            User toUser = User.builder()
+            User amine = User.builder()
                     .firstname("Amine")
                     .lastname("khatmi")
                     .email("aminekhatmi12@gmail.com")
@@ -38,7 +38,7 @@ public class UserMicroserviceApplication {
                     .isActive(Active.ACTIVE)
                     .build();
 
-            User userOussama = User.builder()
+            User naima = User.builder()
                     .firstname("Naima")
                     .lastname("Sabri")
                     .email("naimaSabri@gmail.com")
@@ -48,59 +48,11 @@ public class UserMicroserviceApplication {
                     .build();
 
 
-            userService.registerUser(toUser);
-            userService.registerUser(userOussama);
+            userService.registerUser(amine);
+            userService.registerUser(naima);
             userService.addRoleToUserByEmail(ERole.ADMIN,"aminekhatmi12@gmail.com");
-            User user1 = User.builder()
-                    .firstname("John")
-                    .lastname("Doe")
-                    .email("john.doe@example.com")
-                    .numberPhone("0612345678")
-                    .password("password123")
-                    .isActive(Active.ACTIVE)
-                    .build();
 
-            User user2 = User.builder()
-                    .firstname("Alice")
-                    .lastname("Smith")
-                    .email("alice.smith@example.com")
-                    .numberPhone("0698765432")
-                    .password("password456")
-                    .isActive(Active.ACTIVE)
-                    .build();
 
-            User user3 = User.builder()
-                    .firstname("Bob")
-                    .lastname("Johnson")
-                    .email("bob.johnson@example.com")
-                    .numberPhone("0643216789")
-                    .password("password789")
-                    .isActive(Active.ACTIVE)
-                    .build();
-
-            User user4 = User.builder()
-                    .firstname("Emily")
-                    .lastname("Davis")
-                    .email("emily.davis@example.com")
-                    .numberPhone("0678941236")
-                    .password("passwordabc")
-                    .isActive(Active.ACTIVE)
-                    .build();
-
-            User user5 = User.builder()
-                    .firstname("Michael")
-                    .lastname("Wilson")
-                    .email("michael.wilson@example.com")
-                    .numberPhone("0612378456")
-                    .password("passwordxyz")
-                    .isActive(Active.ACTIVE)
-                    .build();
-
-            userService.registerUser(user1);
-            userService.registerUser(user2);
-            userService.registerUser(user3);
-            userService.registerUser(user4);
-            userService.registerUser(user5);
 
 
         };

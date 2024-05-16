@@ -49,7 +49,7 @@ public class MailService implements IMailService {
     public void sendResetPasswordMail(String to, String subject,  UserDTO userDTO) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
-        helper.setFrom("ecommercemicroservice2024@gmail.com");
+        helper.setFrom("aminekhatmi13@gmail.com");
         helper.setTo(to);
         helper.setSubject("Reset Your Email - E-Commerce Application Registration");
         helper.setText("<html>" +

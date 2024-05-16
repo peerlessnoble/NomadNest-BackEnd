@@ -8,17 +8,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="MSERUEKA" />
-        <module name="MSGATEWAY" />
         <module name="CATALOG-SERVICE" />
         <module name="MSORDER" />
         <module name="gateway-microservice" />
         <module name="auth-microservice" />
         <module name="Clients" />
-        <module name="SECURITY-MSERVICE" />
         <module name="MSPAYMENT" />
         <module name="user-microservice" />
         <module name="MSREVIEW" />
-        <module name="MSUSER" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -26,10 +23,13 @@
       <module name="Configuration" target="1.7" />
       <module name="Eureka" target="1.7" />
       <module name="Gateway" target="1.7" />
+      <module name="MSGATEWAY" target="17" />
       <module name="MSPRODUCT" target="17" />
+      <module name="MSUSER" target="17" />
       <module name="order" target="1.7" />
       <module name="payment" target="1.7" />
       <module name="product" target="1.7" />
+      <module name="SECURITY-MSERVICE" target="17" />
       <module name="user" target="1.7" />
     </bytecodeTargetLevel>
   </component>
