@@ -1,5 +1,7 @@
 package com.sid.msorder.mappers;
 
+import com.nomadnest.clients.Catalog.product.ProductServiceClient;
+import com.nomadnest.clients.User.UserServiceClient;
 import com.sid.msorder.Dtos.*;
 import com.sid.msorder.Entity.Order;
 import com.sid.msorder.Entity.OrderItem;
@@ -14,12 +16,13 @@ public class MappingProfile {
     static {
         modelMapper.getConfiguration().setAmbiguityIgnored(true);
 
+        ProductServiceClient productServiceClient;
+
 
         modelMapper.addMappings(new PropertyMap<OrderItem, OrderItemResponseDto>() {
             @Override
             protected void configure() {
                 map().setOrderItemId(source.getOrderItemId());
-                map().setProductId(source.getProductId());
                 map().setOrderId(source.getOrder().getOrderId());
 
             }
@@ -66,12 +69,21 @@ public class MappingProfile {
 
     }
 
+
     public static Order mapToEntity(OrderRequestDto orderRequestDto){
         return modelMapper.map(orderRequestDto, Order.class);
     }
 
-    public static OrderResponseDto mapToDto(Order order){
-        return modelMapper.map(order, OrderResponseDto.class);
+    public static OrderResponseDto mapToDto(Order order, UserServiceClient userServiceClient,ProductServiceClient productServiceClient){
+        OrderResponseDto orderResponseDto = modelMapper.map(order, OrderResponseDto.class);
+        orderResponseDto.setUser(userServiceClient.getUserById(order.getUserId()));
+        orderResponseDto.getOrderItems().forEach(orderItem -> {
+            orderItem.setProduct(productServiceClient.getByProductById(orderItem.getProduct().getId()));
+        });
+        orderResponseDto.setTotal(orderResponseDto.getOrderItems().stream()
+                .mapToDouble(orderItem -> orderItem
+                        .getProduct().getOriginalPrice() * orderItem.getQuantity()).sum() + order.getShipping().getShippingCost());
+        return orderResponseDto;
     }
 
     public static OrderItem mapToEntity(OrderItemRequestDto orderItemRequest){

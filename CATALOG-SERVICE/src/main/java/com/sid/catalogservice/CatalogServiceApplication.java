@@ -19,6 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication
 @AllArgsConstructor
@@ -125,6 +126,12 @@ public class CatalogServiceApplication implements CommandLineRunner {
         );
 
         categoryRepository.saveAll(categories);
+        // Retrieve the SubCategory from the database
+        Optional<SubCategory> SubCategory1 = subCategoryRepository.findById(1L);
+        Optional<SubCategory> SubCategory2 = subCategoryRepository.findById(2L);
+        Optional<SubCategory> SubCategory3 = subCategoryRepository.findById(3L);
+        Optional<SubCategory> SubCategory4 = subCategoryRepository.findById(4L);
+
 
         List<Product> products = Arrays.asList(
                 Product.builder()
@@ -136,6 +143,7 @@ public class CatalogServiceApplication implements CommandLineRunner {
                         .inStock(50)
                         .createdAt(new Date())
                         .user_id(1L)
+                        .subCategory(SubCategory1.get())
                         .build(),
 
                 Product.builder()
@@ -146,6 +154,7 @@ public class CatalogServiceApplication implements CommandLineRunner {
                         .imagePath("/images/tente_familiale.jpg")
                         .inStock(20)
                         .user_id(1L)
+                        .subCategory(SubCategory2.get())
                         .createdAt(new Date())
                         .build(),
 
@@ -156,6 +165,7 @@ public class CatalogServiceApplication implements CommandLineRunner {
                         .originalPrice(149.99)
                         .imagePath("/images/valise_roulettes.jpg")
                         .inStock(10)
+                        .subCategory(SubCategory3.get())
                         .createdAt(new Date())
                         .build(),
 
@@ -166,6 +176,7 @@ public class CatalogServiceApplication implements CommandLineRunner {
                         .originalPrice(129.99)
                         .imagePath("/images/kit_survie_complet.jpg")
                         .inStock(15)
+                        .subCategory(SubCategory4.get())
                         .createdAt(new Date())
                         .build()
         );

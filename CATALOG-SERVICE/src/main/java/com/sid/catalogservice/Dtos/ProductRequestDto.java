@@ -21,7 +21,6 @@ public class ProductRequestDto {
 
     private String imagePath;
     private Integer inStock;
-    private SubCategory subCategory;
-    private Date createdAt;
-    private Long user_id;
+    private Long subCategory;
+    //private Long user_id;
 }

@@ -30,18 +30,18 @@ public class UserMicroserviceApplication {
             Role adminRole = new Role(ERole.ADMIN);
             roleRepository.saveAll(List.of(adminRole,userRole));
             User toUser = User.builder()
-                    .firstname("Achraf")
-                    .lastname("Lamsahel")
-                    .email("achraflamsahel1@gmail.com")
+                    .firstname("Amine")
+                    .lastname("khatmi")
+                    .email("aminekhatmi12@gmail.com")
                     .numberPhone("0621403650")
                     .password("qwerty123")
                     .isActive(Active.ACTIVE)
                     .build();
 
             User userOussama = User.builder()
-                    .firstname("Oussama")
-                    .lastname("Bernek")
-                    .email("ecommercemicroservice2024@gmail.com")
+                    .firstname("Naima")
+                    .lastname("Sabri")
+                    .email("naimaSabri@gmail.com")
                     .numberPhone("0621403650")
                     .password("qwerty123")
                     .isActive(Active.ACTIVE)
@@ -50,7 +50,7 @@ public class UserMicroserviceApplication {
 
             userService.registerUser(toUser);
             userService.registerUser(userOussama);
-            userService.addRoleToUserByEmail(ERole.ADMIN,"achraflamsahel1@gmail.com");
+            userService.addRoleToUserByEmail(ERole.ADMIN,"aminekhatmi12@gmail.com");
             User user1 = User.builder()
                     .firstname("John")
                     .lastname("Doe")

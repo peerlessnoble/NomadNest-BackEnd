@@ -11,9 +11,12 @@
         <module name="MSGATEWAY" />
         <module name="CATALOG-SERVICE" />
         <module name="MSORDER" />
+        <module name="gateway-microservice" />
+        <module name="auth-microservice" />
         <module name="Clients" />
         <module name="SECURITY-MSERVICE" />
         <module name="MSPAYMENT" />
+        <module name="user-microservice" />
         <module name="MSREVIEW" />
         <module name="MSUSER" />
       </profile>
@@ -41,6 +44,9 @@
       <module name="MSREVIEW" options="-parameters" />
       <module name="MSUSER" options="-parameters" />
       <module name="SECURITY-MSERVICE" options="-parameters" />
+      <module name="auth-microservice" options="-parameters" />
+      <module name="gateway-microservice" options="-parameters" />
+      <module name="user-microservice" options="-parameters" />
     </option>
   </component>
 </project>
