@@ -1,5 +1,6 @@
 package com.sid.msorder.Service;
 
+import com.nomadnest.clients.Catalog.product.ProductServiceClient;
 import com.nomadnest.clients.User.User;
 import com.nomadnest.clients.User.UserServiceClient;
 import com.sid.msorder.Dtos.OrderItemRequestDto;
@@ -45,6 +46,7 @@ public class OrderServiceImp implements OrderService{
     private final EmailService emailService;
     private final UserServiceClient userServiceClient;
     private final OrderItemService orderItemService;
+    private final ProductServiceClient productServiceClient;
 
     @Override
     public Page<OrderResponseDto> getAllOrders(int pageNumber, int pageSize, String field, String order) {
@@ -56,7 +58,7 @@ public class OrderServiceImp implements OrderService{
                                 Sort.Direction.ASC,
                         field)
         );
-        return orderRepository.findAll(pageRequest).map(MappingProfile::mapToDto);
+        return orderRepository.findAll(pageRequest).map(orderm -> MappingProfile.mapToDto(orderm, userServiceClient, productServiceClient));
     }
 
     @Override
@@ -64,7 +66,7 @@ public class OrderServiceImp implements OrderService{
         log.info("getOrder By Order" + orderId);
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException("Order not found"));
-        return MappingProfile.mapToDto(order);
+        return MappingProfile.mapToDto(order, userServiceClient, productServiceClient);
     }
 
     @Override
@@ -81,7 +83,6 @@ public class OrderServiceImp implements OrderService{
                     .map(ErrorMessage::getMessage)
                     .collect(Collectors.joining("; ")));
         }
-        User user = userServiceClient.getUserById(orderRequestDTO.getUserId());
         Order order = MappingProfile.mapToEntity(orderRequestDTO);
         order.setOrderStatus(OrderStatus.CREATED);
         order.setOrderDate(new Date());
@@ -96,7 +97,9 @@ public class OrderServiceImp implements OrderService{
         });
         order.getShipping().setOrder(order);
         Order savedOrder = orderRepository.save(order);
-        return MappingProfile.mapToDto(savedOrder);
+
+
+        return MappingProfile.mapToDto(savedOrder, userServiceClient, productServiceClient);
     }
 
 
@@ -125,7 +128,7 @@ public class OrderServiceImp implements OrderService{
         if (order.getOrderStatus() != previousStatus) {
             sendOrderStatusUpdateEmail(savedOrder);
         }
-        return MappingProfile.mapToDto(savedOrder);
+        return MappingProfile.mapToDto(savedOrder, userServiceClient, productServiceClient);
     }
 
 

@@ -1,5 +1,6 @@
 package com.sid.msorder.Dtos;
 
+import com.nomadnest.clients.Catalog.product.Product;
 import lombok.*;
 
 @Data
@@ -10,7 +11,7 @@ import lombok.*;
 public class OrderItemResponseDto {
     private Long orderItemId;
     private int quantity;
-    private Long productId;
+    private Product product;
     private Long orderId;
 }
 

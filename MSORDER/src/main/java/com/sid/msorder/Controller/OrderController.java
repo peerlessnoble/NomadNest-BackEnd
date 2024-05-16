@@ -23,7 +23,7 @@ public class OrderController {
     ResponseEntity<Page<OrderResponseDto>> getAllOrders(
             @RequestParam("pageNumber") int pageNumber,
             @RequestParam("pageSize") int pageSize,
-            @RequestParam("fields") String fields,
+            @RequestParam("field") String fields,
             @RequestParam("order") String order
     ){
         return ResponseEntity.ok(orderService.getAllOrders(pageNumber,pageSize,fields,order));

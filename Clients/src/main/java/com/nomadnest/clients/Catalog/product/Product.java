@@ -1,10 +1,12 @@
 package com.nomadnest.clients.Catalog.product;
 
 import com.nomadnest.clients.Catalog.SubCategory.SubCategory;
+import lombok.Data;
 
 import java.util.Date;
-
+@Data
 public class Product {
+    private Long id;
 
     private String productName;
 
@@ -15,6 +17,5 @@ public class Product {
 
     private String imagePath;
     private Integer inStock;
-    private SubCategory subCategory;
     private Date createdAt;
 }

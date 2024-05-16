@@ -1,5 +1,6 @@
 package com.sid.msorder.Dtos;
 
+import com.nomadnest.clients.User.User;
 import com.sid.msorder.Enums.OrderStatus;
 import lombok.*;
 
@@ -13,12 +14,13 @@ import java.util.List;
 @NoArgsConstructor
 public class OrderResponseDto {
     private Long orderId;
-    private Long userId;
+    private User user;
     private Date orderDate;
     private Date updatedDate;
     private OrderStatus orderStatus;
     private List<OrderItemResponseDto> orderItems;
     private ShippingResponseDto shipping;
+    private Double total;
     //
     //private Double originalPrice;
 }

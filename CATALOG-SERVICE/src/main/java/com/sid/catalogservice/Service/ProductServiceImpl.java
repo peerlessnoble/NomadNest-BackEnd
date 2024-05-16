@@ -37,22 +37,24 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public ProductResponseDto addProduct(ProductRequestDto productRequestDto) throws ValidationException,UnauthorizedException {
-        User user=userServiceClient.getUserById(productRequestDto.getUser_id());
-        System.out.println(user.getUsername()+" "+user.getRole());
-        if(!(Objects.equals(user.getRole(), "ADMIN")))
-            throw new UnauthorizedException("You are not authorized to add product");
+        //User user=userServiceClient.getUserById(productRequestDto.getUser_id());
+       // System.out.println(user.getUsername()+" "+user.getRole());
+        //if(!(Objects.equals(user.getRole(), "ADMIN")))
+           // throw new UnauthorizedException("You are not authorized to add product");
        List<ErrorMessage>validationErrors= ValidationEntity.validateProduct(productRequestDto);
        if (!validationErrors.isEmpty()){
            throw new ValidationException(String.valueOf(validationErrors));
        }
+        SubCategory subCategory = subCategoryRepository.findById(productRequestDto.getSubCategory())
+                .orElseThrow(() -> new NotFoundException("SubCategory not found"));
         Product product = MappingProfiles.mapToEntity(productRequestDto);
+        product.setSubCategory(subCategory);
         return MappingProfiles.mapToDto(productRepository.save(product));
     }
 
     @Override
     public ProductResponseDto getProductById(Long id) throws NotFoundException {
         Product product=productRepository.findById(id).orElseThrow( () -> new  NotFoundException("Product not found"));
-        System.out.println(product);
         return MappingProfiles.mapToDto(product);
     }
 
@@ -74,13 +76,15 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public ProductResponseDto updateProduct(Long id, ProductRequestDto productRequestDto)   {
         Product product=productRepository.findById(id).orElseThrow(() -> new NotFoundException("Product not found"));
+        SubCategory subCategory = subCategoryRepository.findById(productRequestDto.getSubCategory())
+                .orElseThrow(() -> new NotFoundException("SubCategory not found"));
         product.setProductName(productRequestDto.getProductName());
         product.setImagePath(productRequestDto.getImagePath());
         product.setLongDescription(productRequestDto.getLongDescription());
         product.setShortDescription(productRequestDto.getShortDescription());
         product.setInStock(productRequestDto.getInStock());
         product.setOriginalPrice(productRequestDto.getOriginalPrice());
-        product.setSubCategory(productRequestDto.getSubCategory());
+        product.setSubCategory(subCategory);
         return MappingProfiles.mapToDto(productRepository.save(product));
     }
 
