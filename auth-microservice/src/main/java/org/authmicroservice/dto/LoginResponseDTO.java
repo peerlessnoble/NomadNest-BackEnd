@@ -11,7 +11,10 @@ import java.util.List;
 @Data @AllArgsConstructor @NoArgsConstructor @Builder
 public class LoginResponseDTO {
     private String email;
+    private String firstname;
+    private String lastname;
     private String accessToken;
     private String refreshToken;
     private List<String> roles= new ArrayList<>();
+    private String status;
 }

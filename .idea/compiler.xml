@@ -25,11 +25,9 @@
       <module name="Gateway" target="1.7" />
       <module name="MSGATEWAY" target="17" />
       <module name="MSPRODUCT" target="17" />
-      <module name="MSUSER" target="17" />
       <module name="order" target="1.7" />
       <module name="payment" target="1.7" />
       <module name="product" target="1.7" />
-      <module name="SECURITY-MSERVICE" target="17" />
       <module name="user" target="1.7" />
     </bytecodeTargetLevel>
   </component>
