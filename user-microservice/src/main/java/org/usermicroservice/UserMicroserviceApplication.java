@@ -41,7 +41,7 @@ public class UserMicroserviceApplication {
             User naima = User.builder()
                     .firstname("Naima")
                     .lastname("Sabri")
-                    .email("naimaSabri@gmail.com")
+                    .email("naimaSabri1504@gmail.com")
                     .numberPhone("0621403650")
                     .password("qwerty123")
                     .isActive(Active.ACTIVE)

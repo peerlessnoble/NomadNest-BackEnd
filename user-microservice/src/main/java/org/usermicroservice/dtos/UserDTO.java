@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.usermicroservice.enums.Active;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 @Data @AllArgsConstructor @NoArgsConstructor @Builder
 public class UserDTO {
@@ -21,4 +22,6 @@ public class UserDTO {
     private String confirmationToken;
     private String resetPasswordToken;
     private Collection<RoleDTO> roles = new ArrayList<>();
+    private Date verifiedAt;
+
 }
