@@ -3,6 +3,7 @@ package com.sid.msorder.Controller;
 
 import com.sid.msorder.Dtos.OrderRequestDto;
 import com.sid.msorder.Dtos.OrderResponseDto;
+import com.sid.msorder.Dtos.StatisticsResponseDto;
 import com.sid.msorder.Service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -45,5 +46,10 @@ public class OrderController {
     void deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
     }*/
+   @GetMapping("/statistics")
+   ResponseEntity<StatisticsResponseDto> getStatistics() {
+       return ResponseEntity.ok(orderService.getStatistics());
+   }
+
 
 }

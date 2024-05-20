@@ -246,6 +246,21 @@ public class UserService implements IUserService {
         }
     }
 
+    @Override
+    public Integer getUsersInActiveCount() {
+        return Math.toIntExact(this.userRepository.count());
+    }
+
+    @Override
+    public Integer getUsersCount() {
+        return Math.toIntExact(this.userRepository.count());
+    }
+
+    @Override
+    public Integer getUsersActiveCount() {
+        return Math.toIntExact(this.userRepository.count());
+    }
+
 }
 
 

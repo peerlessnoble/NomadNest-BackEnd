@@ -123,6 +123,10 @@ public class ProductServiceImpl implements ProductService{
               .collect(Collectors.toList());
 
     }
+    @Override
+    public Integer getProductsCount()  {
+        return Math.toIntExact(this.productRepository.count());
+    }
 
 
 }

@@ -26,4 +26,7 @@ public interface IUserService {
     void addRoleToUserByEmail(ERole eRole, String email);
     void activeUser(Long id);
     void inActiveUser(Long id);
+    Integer getUsersInActiveCount();
+    Integer getUsersCount();
+    Integer getUsersActiveCount();
 }

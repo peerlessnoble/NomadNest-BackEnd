@@ -25,5 +25,6 @@ public interface ProductService {
     List<ProductResponseDto> findProductBySubCategory(SubCategory subcategory_id) throws NotFoundException;
     List<ProductResponseDto> findProductByProductName (String name) throws NotFoundException;
     List<ProductResponseDto> findProductByShortDescription(String description) throws NotFoundException;
+    Integer getProductsCount ();
 
 }

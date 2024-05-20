@@ -8,4 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface ProductServiceClient {
     @GetMapping("/catalog/products/{id}")
     Product getByProductById(@PathVariable Long id);
+    @GetMapping("/catalog/products/count")
+    Integer getProductCount();
+
 }

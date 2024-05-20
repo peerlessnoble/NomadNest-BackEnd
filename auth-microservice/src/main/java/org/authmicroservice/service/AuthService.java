@@ -29,6 +29,8 @@ public class AuthService implements IAuthService {
             if (authentication.isAuthenticated()) {
                 return LoginResponseDTO.builder()
                         .email(userDTO.getEmail())
+                        .firstname(userDTO.getFirstname())
+                        .lastname(userDTO.getLastname())
                         .accessToken(jwtService.generateToken(request.getEmail()))
                         .refreshToken(jwtService.generateToken(request.getEmail()))
                         .roles(jwtService.getRoles(request.getEmail()))

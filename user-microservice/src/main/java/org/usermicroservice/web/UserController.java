@@ -132,4 +132,17 @@ public class UserController {
         iUserService.deleteUserById(id);
     }
 
+    @GetMapping("/count")
+    ResponseEntity<Integer> getUsersCount() {
+        return ResponseEntity.ok(this.iUserService.getUsersCount());
+    }
+    @GetMapping("/countInactive")
+    ResponseEntity<Integer> getUsersCountInactive() {
+        return ResponseEntity.ok(this.iUserService.getUsersInActiveCount());
+    }
+    @GetMapping("/countActive")
+    ResponseEntity<Integer> getUsersCountActive() {
+        return ResponseEntity.ok(this.iUserService.getUsersActiveCount());
+    }
+
 }

@@ -62,6 +62,10 @@ public class ProductController {
     void deleteProduct(@PathVariable Long id) throws NotFoundException {
         productService.deleteProduct(id);
     }
+    @GetMapping("/count")
+    ResponseEntity<Integer> getProductCount() {
+        return ResponseEntity.ok(this.productService.getProductsCount());
+    }
 
 
 

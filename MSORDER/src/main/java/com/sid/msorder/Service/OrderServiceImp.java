@@ -6,6 +6,7 @@ import com.nomadnest.clients.User.UserServiceClient;
 import com.sid.msorder.Dtos.OrderItemRequestDto;
 import com.sid.msorder.Dtos.OrderRequestDto;
 import com.sid.msorder.Dtos.OrderResponseDto;
+import com.sid.msorder.Dtos.StatisticsResponseDto;
 import com.sid.msorder.Entity.Order;
 import com.sid.msorder.Entity.OrderItem;
 import com.sid.msorder.Entity.Shipping;
@@ -157,6 +158,16 @@ public class OrderServiceImp implements OrderService{
                 break;
         }
         emailService.send(recipientEmail, emailSubject, emailContent);
+    }
+    @Override
+    public StatisticsResponseDto getStatistics (){
+        Double totalEarning = 0.0;
+        StatisticsResponseDto statisticsResponseDto = new StatisticsResponseDto();
+        statisticsResponseDto.setTotalProducts(this.productServiceClient.getProductCount());
+        statisticsResponseDto.setTotalUsers(this.userServiceClient.getUsersCount());
+        statisticsResponseDto.setTotalOrders(Math.toIntExact(this.orderRepository.count()));
+        statisticsResponseDto.setTotalEarnings(totalEarning);
+        return statisticsResponseDto ;
     }
 
 
