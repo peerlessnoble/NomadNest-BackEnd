@@ -28,6 +28,7 @@ public class AuthService implements IAuthService {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication.isAuthenticated()) {
                 return LoginResponseDTO.builder()
+                        .userId(userDTO.getUserId())
                         .email(userDTO.getEmail())
                         .firstname(userDTO.getFirstname())
                         .lastname(userDTO.getLastname())

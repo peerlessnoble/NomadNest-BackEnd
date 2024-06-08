@@ -27,6 +27,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.spi.ErrorMessage;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -60,6 +61,24 @@ public class OrderServiceImp implements OrderService{
                         field)
         );
         return orderRepository.findAll(pageRequest).map(orderm -> MappingProfile.mapToDto(orderm, userServiceClient, productServiceClient));
+    }
+
+    @Override
+    public Page<OrderResponseDto> getAllOrdersByUserId(int pageNumber, int pageSize, String field, String order, Long userId) {
+        PageRequest pageRequest = PageRequest.of(
+                pageNumber,
+                pageSize,
+                Sort.by(order.equalsIgnoreCase("desc") ?
+                                Sort.Direction.DESC :
+                                Sort.Direction.ASC,
+                        field)
+        );
+        List<OrderResponseDto> filteredOrders = orderRepository.findAll(pageRequest).stream()
+                .filter(orderm -> orderm.getUserId().equals(userId))
+                .map(orderm -> MappingProfile.mapToDto(orderm, userServiceClient, productServiceClient))
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(filteredOrders, pageRequest, filteredOrders.size());
     }
 
     @Override
@@ -162,12 +181,16 @@ public class OrderServiceImp implements OrderService{
     @Override
     public StatisticsResponseDto getStatistics (){
         Double totalEarning = 0.0;
+        List<Order> allOrders = this.orderRepository.findAll();
+        for (Order order : allOrders) {
+            totalEarning += order.getTotalAmount();
+        }
         StatisticsResponseDto statisticsResponseDto = new StatisticsResponseDto();
         statisticsResponseDto.setTotalProducts(this.productServiceClient.getProductCount());
         statisticsResponseDto.setTotalUsers(this.userServiceClient.getUsersCount());
         statisticsResponseDto.setTotalOrders(Math.toIntExact(this.orderRepository.count()));
         statisticsResponseDto.setTotalEarnings(totalEarning);
-        return statisticsResponseDto ;
+            return statisticsResponseDto ;
     }
 
 

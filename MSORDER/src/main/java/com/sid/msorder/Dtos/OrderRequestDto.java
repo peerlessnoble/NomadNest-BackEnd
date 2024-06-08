@@ -18,6 +18,7 @@ public class OrderRequestDto {
     private List<OrderItemRequestDto> orderItems;
     private ShippingRequestDto shipping;
     private Long orderId;
+    private Double totalAmount;
 }
 
 

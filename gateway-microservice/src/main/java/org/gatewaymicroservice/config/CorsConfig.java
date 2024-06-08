@@ -20,7 +20,7 @@ public class CorsConfig extends CorsConfiguration {
         corsConfiguration.addAllowedHeader("accept");
         corsConfiguration.addAllowedHeader("authorization");
         corsConfiguration.addAllowedHeader("cookie");
-        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:4200","http://localhost:4401"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
         return new CorsWebFilter(source);

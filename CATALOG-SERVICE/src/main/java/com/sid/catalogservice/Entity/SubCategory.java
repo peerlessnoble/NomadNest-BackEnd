@@ -40,6 +40,4 @@ public class SubCategory {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
-
-
 }

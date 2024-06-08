@@ -10,6 +10,7 @@ import java.util.List;
 
 @Data @AllArgsConstructor @NoArgsConstructor @Builder
 public class LoginResponseDTO {
+    private Long userId;
     private String email;
     private String firstname;
     private String lastname;

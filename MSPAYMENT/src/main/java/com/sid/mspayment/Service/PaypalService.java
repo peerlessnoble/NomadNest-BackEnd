@@ -20,12 +20,12 @@ public class PaypalService {
             String method,
             String intent,
             String description,
-            String cancelUrl, // where to direct the user if he cancel the payment
+            String cancelUrl, // where to direct the user if cancel the payment
             String successUrl
     ) throws PayPalRESTException {
         Amount amount =new Amount();
         amount.setCurrency(currency);
-        amount.setTotal(String.format(Locale.forLanguageTag(currency),"%.2f",total)); // local 9,99$
+        amount.setTotal(String.format(Locale.ENGLISH,"%.2f",total)); // local 9,99$
 
         Transaction transaction = new Transaction();
         transaction.setDescription(description);
@@ -68,4 +68,3 @@ public class PaypalService {
     }
 
 }
-

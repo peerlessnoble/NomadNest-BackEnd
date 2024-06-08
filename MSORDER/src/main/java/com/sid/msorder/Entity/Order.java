@@ -38,7 +38,7 @@ public class Order {
 //    @ManyToOne(fetch = FetchType.EAGER)
 //    @JoinColumn(name = "shipping_id") // Assuming this is the foreign key column in the Order table
 //    private Shipping shipping;
-
+    private Double totalAmount;
     private Long userId;
 
     public Order(  OrderStatus orderStatus, List<OrderItem> orderItems, Shipping shipping,Long userId) {
