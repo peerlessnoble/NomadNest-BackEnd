@@ -32,6 +32,7 @@ public class OrderController {
 
     @PostMapping("")
     ResponseEntity<OrderResponseDto> addOrder(@RequestBody OrderRequestDto orderRequestDTO){
+        System.out.println("order not added "+orderRequestDTO.toString());
 
             OrderResponseDto orderResponseDto= orderService.AddOrder(orderRequestDTO);
             return ResponseEntity.ok(orderResponseDto);
@@ -50,6 +51,18 @@ public class OrderController {
    ResponseEntity<StatisticsResponseDto> getStatistics() {
        return ResponseEntity.ok(orderService.getStatistics());
    }
+    @GetMapping("/user")
+    ResponseEntity<Page<OrderResponseDto>> getAllOrdersByUserId(
+            @RequestParam("pageNumber") int pageNumber,
+            @RequestParam("pageSize") int pageSize,
+            @RequestParam("field") String fields,
+            @RequestParam("order") String order,
+            @RequestParam("userId") Long userId
+
+
+    ){
+        return ResponseEntity.ok(orderService.getAllOrdersByUserId(pageNumber,pageSize,fields,order,userId));
+    }
 
 
 }

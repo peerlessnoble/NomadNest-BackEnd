@@ -23,7 +23,7 @@ public class Product {
     private String productName;
     @Column(name = "short_description")
     private String shortDescription;
-    @Column(name = "long_description")
+    @Column(name = "long_description",columnDefinition = "TEXT")
     private String longDescription;
     @Column(name = "original_price")
     private Double originalPrice;
@@ -44,6 +44,4 @@ public class Product {
     @JoinColumn(name = "subcategory_id")
     private SubCategory subCategory;
     private Long user_id;
-
-
 }
